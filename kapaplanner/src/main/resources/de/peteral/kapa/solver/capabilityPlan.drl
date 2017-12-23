@@ -1,0 +1,26 @@
+package de.peteral.kapa.solver
+    dialect "java"
+
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
+
+import de.peteral.kapa.domain.Task
+import de.peteral.kapa.domain.Team
+import de.peteral.kapa.domain.Capability
+
+global HardSoftScoreHolder scoreHolder;
+
+// Hard constraints
+
+rule "Task must be assigned"
+    when
+        Task(team == null)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+rule "Team must have required capability"
+    when
+        Task(team != null, team.capabilities not contains capability)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end

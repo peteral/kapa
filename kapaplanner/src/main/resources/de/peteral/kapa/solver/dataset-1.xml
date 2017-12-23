@@ -1,0 +1,16 @@
+<Schedule>
+    <Task id="1" capability="ANALYSIS" work="10"/>
+    <Task id="2" capability="PLATFORM_DEVELOPMENT" work="50"/>
+    <Task id="3" capability="ANALYSIS" work="15"/>
+    <Task id="4" capability="PLATFORM_DEVELOPMENT" work="70"/>
+    <Task id="5" capability="PROJECT_DEVELOPMENT" work="70"/>
+    <Team id="1">
+        <Capability>ANALYSIS</Capability>
+    </Team>
+    <Team id="2">
+        <Capability>PLATFORM_DEVELOPMENT</Capability>
+    </Team>
+    <Team id="3">
+        <Capability>PROJECT_DEVELOPMENT</Capability>
+    </Team>
+</Schedule>

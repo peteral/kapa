@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+    <!-- Define the model -->
+    <scanAnnotatedClasses/>
+
+    <!-- Define the score function -->
+    <scoreDirectorFactory>
+        <scoreDrl>de/peteral/kapa/solver/capabilityPlan.drl</scoreDrl>
+    </scoreDirectorFactory>
+
+    <constructionHeuristic>
+        <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+    </constructionHeuristic>
+</solver>
+

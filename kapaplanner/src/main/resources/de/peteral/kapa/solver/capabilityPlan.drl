@@ -27,9 +27,11 @@ rule "Team must have required skill"
 end
 
 // Soft constraints
+
+// just messing around - this won't really work
 rule "Same work per team with same skill"
     when
-        Team($totalWork : getTotalWork(), getTotalWork() > 50)
+        Team($totalWork : getTotalWork(), getTotalWork() > 70)
     then
         scoreHolder.addSoftConstraintMatch(kcontext, - $totalWork);
 end

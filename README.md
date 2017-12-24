@@ -17,6 +17,11 @@ This software is based on [OptaPlanner](https://www.optaplanner.org/)
     * Some tasks must be finished before others
         * Analysis must be finished before the development can start
         * Platform feature required before customer-specific module can start development
+    * Easy within a team - order of tasks in backlog is sufficient
+    * Difficult between teams
+        * one possibility - execution start planning variable - don't like this idea
+        * other possibility - plan other tasks in the mean time, use "dummy blocker tasks" for slots without utilization
+        * dummy tasks don't have to be planned -> they even should not -> soft constraint - bad utilization
         
 ### Soft constraints
 
@@ -69,6 +74,4 @@ Having the task input as a prioritized might help speed up the planning (priorit
 * **f: costOfDelay** - cost of delay **!?** we start simply with a number, but this topic can get complex
 * **f: tasks** - tasks belonging to this project
 * **s: delay** - how much is the last planned task after due of project
-
-### Skill
 

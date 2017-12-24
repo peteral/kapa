@@ -8,8 +8,14 @@
         <scoreDrl>de/peteral/kapa/solver/capabilityPlan.drl</scoreDrl>
     </scoreDirectorFactory>
 
+<!--
     <constructionHeuristic>
         <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
     </constructionHeuristic>
+-->
+
+    <termination>
+        <secondsSpentLimit>30</secondsSpentLimit>
+    </termination>
 </solver>
 

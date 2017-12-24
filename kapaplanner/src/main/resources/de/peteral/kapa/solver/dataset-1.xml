@@ -4,6 +4,7 @@
     <Task id="3" capability="ANALYSIS" work="15"/>
     <Task id="4" capability="PLATFORM_DEVELOPMENT" work="70"/>
     <Task id="5" capability="PROJECT_DEVELOPMENT" work="70"/>
+    <Task id="6" capability="PLATFORM_DEVELOPMENT" work="10"/>
     <Team id="1">
         <Capability>ANALYSIS</Capability>
     </Team>
@@ -11,6 +12,9 @@
         <Capability>PLATFORM_DEVELOPMENT</Capability>
     </Team>
     <Team id="3">
+        <Capability>PLATFORM_DEVELOPMENT</Capability>
+    </Team>
+    <Team id="4">
         <Capability>PROJECT_DEVELOPMENT</Capability>
     </Team>
 </Schedule>

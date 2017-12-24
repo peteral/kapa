@@ -7,6 +7,8 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
+
 public class App {
     private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 
@@ -15,6 +17,8 @@ public class App {
         Solver<Schedule> solver = factory.buildSolver();
 
         Schedule unsolvedSchedule = (Schedule) XStreamFactory.create().fromXML(App.class.getResource("../solver/dataset-1.xml"));
+        // hack - empty collections not initialized by XStream, but needed by OptaPlanner
+        unsolvedSchedule.getTeams().stream().forEach(team -> team.setTasks(Collections.emptyList()));
 
         LOGGER.info("Unsolved schedule: " + unsolvedSchedule);
 

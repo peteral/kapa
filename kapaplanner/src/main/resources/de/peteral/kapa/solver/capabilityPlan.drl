@@ -6,6 +6,7 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
 import de.peteral.kapa.domain.Task
 import de.peteral.kapa.domain.Team
 import de.peteral.kapa.domain.Capability
+import java.util.stream.Collectors
 
 global HardSoftScoreHolder scoreHolder;
 
@@ -23,4 +24,12 @@ rule "Team must have required capability"
         Task(team != null, team.capabilities not contains capability)
     then
         scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+// Soft constraints
+rule "Same work per team with same capability"
+    when
+        Team($totalWork : getTotalWork(), getTotalWork() > 50)
+    then
+        scoreHolder.addSoftConstraintMatch(kcontext, - $totalWork);
 end

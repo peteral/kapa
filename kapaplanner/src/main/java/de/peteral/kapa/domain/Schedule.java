@@ -11,6 +11,7 @@ import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @PlanningSolution
 @XStreamAlias("Schedule")
@@ -54,6 +55,10 @@ public class Schedule {
 
     @Override
     public String toString() {
-        return XStreamFactory.create().toXML(this);
+        return new StringBuilder()
+                .append("\n\tUnassigned tasks:\t")
+                .append(tasks.stream().filter(task -> task.getTeam() == null).map(task -> "" + task).collect(Collectors.joining(", ")))
+                .append("\n\tAssigned tasks:\n\t\t")
+                .append(teams.stream().map(team -> team.toString()).collect(Collectors.joining("\n\t\t")).toString()).toString();
     }
 }

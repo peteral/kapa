@@ -54,6 +54,6 @@ public class Task extends AbstractDomainObject {
 
     @Override
     public String toString() {
-        return String.format("Task-%1d", getId());
+        return String.format("Task-%d (%s - %d)", getId(), getCapability(), getWork());
     }
 }

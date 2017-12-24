@@ -1,20 +1,22 @@
 <Schedule>
-    <Task id="1" capability="ANALYSIS" work="10"/>
-    <Task id="2" capability="PLATFORM_DEVELOPMENT" work="50"/>
-    <Task id="3" capability="ANALYSIS" work="15"/>
-    <Task id="4" capability="PLATFORM_DEVELOPMENT" work="70"/>
-    <Task id="5" capability="PROJECT_DEVELOPMENT" work="70"/>
-    <Task id="6" capability="PLATFORM_DEVELOPMENT" work="10"/>
+    <Task id="1" skill="ANALYSIS" work="10"/>
+    <Task id="2" skill="PLATFORM_DEVELOPMENT" work="50">
+        <PreviousTask reference="../../Task[1]"/>
+    </Task>
+    <Task id="3" skill="ANALYSIS" work="15"/>
+    <Task id="4" skill="PLATFORM_DEVELOPMENT" work="70"/>
+    <Task id="5" skill="PROJECT_DEVELOPMENT" work="70"/>
+    <Task id="6" skill="PLATFORM_DEVELOPMENT" work="10"/>
     <Team id="1">
-        <Capability>ANALYSIS</Capability>
+        <Skill>ANALYSIS</Skill>
     </Team>
     <Team id="2">
-        <Capability>PLATFORM_DEVELOPMENT</Capability>
+        <Skill>PLATFORM_DEVELOPMENT</Skill>
     </Team>
     <Team id="3">
-        <Capability>PLATFORM_DEVELOPMENT</Capability>
+        <Skill>PLATFORM_DEVELOPMENT</Skill>
     </Team>
     <Team id="4">
-        <Capability>PROJECT_DEVELOPMENT</Capability>
+        <Skill>PROJECT_DEVELOPMENT</Skill>
     </Team>
 </Schedule>

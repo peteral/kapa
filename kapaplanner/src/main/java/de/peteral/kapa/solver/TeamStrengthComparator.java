@@ -8,7 +8,7 @@ import java.util.Comparator;
 public class TeamStrengthComparator implements Comparator<Team> {
     public int compare(Team a, Team b) {
         return new CompareToBuilder()
-                .append(a.getCapabilities().size(), b.getCapabilities().size())
+                .append(a.getSkills().size(), b.getSkills().size())
                 .toComparison();
     }
 }

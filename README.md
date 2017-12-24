@@ -1,74 +1,74 @@
 # kapa
 
-## Introduction
+<img src="docs/flow-chart.svg" width="640" height="400">
 
-This tool aims to help to give transparency to current commitment of the development team and help with the decisions in the planning and budgeting process.
 
-This goal is acchieved by displaying a visual **Roadmap** containing the current commitment including feature-unrelated tasks like software maintenance.
+This software is based on [OptaPlanner](https://www.optaplanner.org/)
 
-This tool was created for a specific need so it only addresses a very specific organisation setup.
+## Planning constraints
 
-### Software
+### Hard constraints
+* Team skills
+    * Teams are responsible for maintenance of modules created by them
+    * New modules are distributed according to following constraints
+        * Product features should be preferably developed by core teams
+        * Customer specific one-time modules should be preferably developed by external teams
+* Task dependencies
+    * Some tasks must be finished before others
+        * Analysis must be finished before the development can start
+        * Platform feature required before customer-specific module can start development
+        
+### Soft constraints
 
-The developed software is two-fold:
+* Minimize cost of delay
+    * Not delivering committed feature on time leads to unsatisfied customers and even to penalties
+    * Not creating a product feature lowers competitiveness and may even lead to loosing projects
+    * Delivering  product feature ahead of schedule might be rewarding and therefore lead to negative costs of delay
+* High team utilization
+    * Teams should be fully utilized
 
-* **Product / Platform** - standard software sold per license
-* **Customer-specific development** - the company provides tailred services for their customers. Sometimes a one-customer-only feature is needed like for example SAP-connector, special reports, customer-specific workflow support,...
+## Domain model
 
-### Organisation
+Abbreviations:
+* **f** - fact
+* **a** - anchor
+* **v** - planning variable
+* **s** - shadow variable
 
-The organization is a result of the struggle of a company who tries to do agile software development in a market which requires fixed price / schedule and therefore is not agile.
+### Team
 
-When we imagine the process as a pipe line, then it might look like this:
+* **f: Skills** - for example module development, analysis, etc.
+* **f: Velocity** - net velocity. Might differ from sprint to sprint
+* **a: Backlog** - prioritized list of tasks (represented by it's anchor task)
 
-<table>
-    <tr>
-        <td>Product management
-        <td>RE
-        <td>Epic Backlog
-        <td>PO 1
-        <td>Backlog 1
-        <td>Dev Team 1
-        <td>Platform
-        <td>
-    <tr>
-        <td>Customer A
-        <td>
-        <td>SRS
-        <td>PO 2
-        <td>Backlog 2
-        <td>Dev Team 2
-        <td>Platform, Project B
-        <td>Integration B
-    <tr>
-        <td>Customer B
-        <td>
-        <td>
-        <td>PO 3
-        <td>Backlog 3
-        <td>Dev Team 3
-        <td>Project A
-        <td>Integration A        
-</table>
+### Task
 
-* Feature stakeholders are external customers or internal product management
-* Requirements Engineering supports the product management and sales team in rough feature definition and cost estimation. Goal - quotation in sales process or rentability decision in product development.
-* These roughly estimated features land in the Epic Backlog. Epics for customer specific development have a order-intake probability estimated by the sales manager.
-* The Epic backlog priorisation determines the order in which the Requirement Engineering processes the Epics.
-* The requirements engineering works with system requirement specifications, click dummies, etc. in order to understand the new feature, clarify interfaces and collest as much information before the development starts as possible.
-* RE creates user stories together with the product owner and presents them to the team responsible for given module and gets team feedback.
-* The priorised team backlog the epics broken up into stories as well as bugs, maintenance and infratructure stories.
-* More teams can be responsible for the platform, usually only one team is responsible for a customer-specific solution.
-* The development works in a classical SCRUM process.
-* The software is integrated and deployed by customer-specific teams.
+* **f: Skill** - team skill required for this task
+* **f: blockedBy** - list of tasks which must be finished before this task can be started
+* **f: leadTime** - lead time needed before this task can be started after all blockers have been finished
+* **v: previousTask** - previous task in the backlog, null = unplanned
+* **f: work** - amount of work needed
+* **s: team** - team to which backlog this task belongs
+* **s: due** - previousTask.due + work / team.velocity
+* **f: project** - project this task belongs to
 
-The scope of this software is high-level planning of the roadmaps of the requirement engineering and development teams.
+Having the task input as a prioritized might help speed up the planning (priority is task strength).
 
-**Input:**
+### Project
 
-* Teams with their capabilities (velocity, %-maintenance work, sprint-length)
-* Epics with total complexity estimation ordered by priority
-* Team-Tasks with dependencies (delay from another team's task), estimation, speed and probability of intake
+* **f: due** - project deadline - all tasks must be finished until then
+* **f: probability** - probability of project intake
+    * projects with 30% intake-probability will only block 30% of capacity
+    * **!?** still not persuaded, this is a good idea - let's consider following situation:
+        * we have a commitment for 90 of 100 units of our capacity for the next 12 months
+        * there is a project in the pipeline with 33% probability worth 30 units of capacity, but it must be finished within the next 12 months
+        * our plan will say to go for the project, 33% of 30 units is 10 units
+        * getting the project sounds great
+        * however in reality the moment we get the project we will have a big problem because of an overcommitment
+    * maybe we could add an constraint saying, that no project in the pipeline is allowed to be bigger, than the remaining unplanned capacity 
+* **f: costOfDelay** - cost of delay **!?** we start simply with a number, but this topic can get complex
+* **f: tasks** - tasks belonging to this project
+* **s: delay** - how much is the last planned task after due of project
 
-**Output:**
-* Roadmap for each team
+### Skill
+

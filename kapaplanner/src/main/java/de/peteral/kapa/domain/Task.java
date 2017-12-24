@@ -5,22 +5,34 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import de.peteral.kapa.solver.TaskDifficultyComparator;
 import de.peteral.kapa.solver.TeamStrengthComparator;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @PlanningEntity(difficultyComparatorClass = TaskDifficultyComparator.class)
 @XStreamAlias("Task")
 public class Task extends AbstractDomainObject {
     @XStreamAsAttribute
-    private Capability capability;
+    private Skill skill;
     @XStreamAsAttribute
     private int work;
 
     @PlanningVariable(valueRangeProviderRefs = {"teamRange"}, strengthComparatorClass = TeamStrengthComparator.class)
     private Team team;
 
-    public Task(long id, Capability capability, int work) {
+    @XStreamAlias("PreviousTask")
+    private Task previousTask;
+
+    @PlanningVariable(valueRangeProviderRefs = {"startTimeRange"})
+    private Integer startTime;
+
+
+    public Task(long id, Skill skill, int work) {
         super(id);
-        this.capability = capability;
+        this.skill = skill;
         this.work = work;
     }
 
@@ -28,12 +40,17 @@ public class Task extends AbstractDomainObject {
 
     }
 
-    public Capability getCapability() {
-        return capability;
+    @ValueRangeProvider(id = "startTimeRange")
+    public List<Integer> getPossibleTimes() {
+        return IntStream.rangeClosed(0, 500).boxed().collect(Collectors.toList());
     }
 
-    public void setCapability(Capability capability) {
-        this.capability = capability;
+    public Skill getSkill() {
+        return skill;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
     }
 
     public Team getTeam() {
@@ -54,6 +71,22 @@ public class Task extends AbstractDomainObject {
 
     @Override
     public String toString() {
-        return String.format("Task-%d (%s - %d)", getId(), getCapability(), getWork());
+        return String.format("Task-%d (%s - %d)", getId(), getSkill(), getWork());
+    }
+
+    public Task getPreviousTask() {
+        return previousTask;
+    }
+
+    public void setPreviousTask(Task previousTask) {
+        this.previousTask = previousTask;
+    }
+
+    public int getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
     }
 }

@@ -5,40 +5,38 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.InverseRelationShadowVariable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @XStreamAlias("Team")
 @PlanningEntity
 public class Team extends AbstractDomainObject {
 
-    @XStreamImplicit(itemFieldName = "Capability")
-    private List<Capability> capabilities;
+    @XStreamImplicit(itemFieldName = "Skill")
+    private List<Skill> skills;
 
     @InverseRelationShadowVariable(sourceVariableName = "team")
     @XStreamAlias("Tasks")
     private List<Task> tasks;
 
-    public Team(long id, Capability... capabilities) {
+    public Team(long id, Skill... capabilities) {
         super(id);
-        this.capabilities = Arrays.asList(capabilities);
+        this.skills = Arrays.asList(capabilities);
     }
 
     public Team() {
 
     }
 
-    public List<Capability> getCapabilities() {
-        return capabilities;
+    public List<Skill> getSkills() {
+        return skills;
     }
 
     @Override
     public String toString() {
 
-        return new StringBuilder(String.format("Team-%1d (%2s - %d): ", getId(), getCapabilities(), getTotalWork()))
+        return new StringBuilder(String.format("Team-%1d (%2s - %d): ", getId(), getSkills(), getTotalWork()))
                 .append(getTasks().stream().map(task -> task.toString()).collect(Collectors.joining(", ")))
                 .toString();
     }

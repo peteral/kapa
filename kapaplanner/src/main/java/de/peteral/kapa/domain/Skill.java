@@ -1,6 +1,6 @@
 package de.peteral.kapa.domain;
 
-public enum Capability {
+public enum Skill {
     ANALYSIS,
     PLATFORM_DEVELOPMENT,
     PROJECT_DEVELOPMENT,

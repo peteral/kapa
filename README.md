@@ -1,5 +1,7 @@
 # kapa
 
+## System overview 
+
 <img src="docs/flow-chart.svg" width="640" height="400">
 
 
@@ -17,11 +19,6 @@ This software is based on [OptaPlanner](https://www.optaplanner.org/)
     * Some tasks must be finished before others
         * Analysis must be finished before the development can start
         * Platform feature required before customer-specific module can start development
-    * Easy within a team - order of tasks in backlog is sufficient
-    * Difficult between teams
-        * one possibility - execution start planning variable - don't like this idea
-        * other possibility - plan other tasks in the mean time, use "dummy blocker tasks" for slots without utilization
-        * dummy tasks don't have to be planned -> they even should not -> soft constraint - bad utilization
         
 ### Soft constraints
 
@@ -57,8 +54,6 @@ Abbreviations:
 * **s: due** - previousTask.due + work / team.velocity
 * **f: project** - project this task belongs to
 
-Having the task input as a prioritized might help speed up the planning (priority is task strength).
-
 ### Project
 
 * **f: due** - project deadline - all tasks must be finished until then
@@ -75,3 +70,36 @@ Having the task input as a prioritized might help speed up the planning (priorit
 * **f: tasks** - tasks belonging to this project
 * **s: delay** - how much is the last planned task after due of project
 
+### Sprint
+
+* **f: number** - ordered sprint number
+
+Problems:
+
+* **!?** Some tasks cannot be handled with full team velocity (for example specification has waits for feedback of partners)
+* **!?** Dependencies between teams
+    * Easy within a team - order of tasks in backlog is sufficient
+    * Difficult between teams
+        * one possibility - execution start planning variable - don't like this idea
+        * other possibility - plan other tasks in the mean time, use "dummy blocker tasks" for slots without utilization
+        * dummy tasks don't have to be planned -> they even should not -> soft constraint - bad utilization
+
+Planning in Sprints seems to be the best option:
+
+* Dependent tasks cannot be handled in earlier or same sprint
+* Team velocity can be defined per sprint
+* Sprint should be long enough to specify packages small enough to not require 100% of BA capacity.
+* this however only works when all teams run in the same sprints 
+
+Having the task input as a prioritized might help speed up the planning (priority is task strength).
+
+
+## Visualization
+
+* Backlog per team with time axis
+* **!?** how should we visualize variable speed?
+* Tasks of each project have different background
+* Tasks past due date have red border
+* Dummy tasks show as empty space
+
+<img src="docs/visualization.svg" width="640" height="640">

@@ -29,6 +29,23 @@ This software is based on [OptaPlanner](https://www.optaplanner.org/)
 * High team utilization
     * Teams should be fully utilized
 
+## Time Domain
+
+Planning in sprints would be much more efficient, however we will have trouble if we want to allow for task-specific max.
+velocity. When we don't, then we will end up planning individual people which is not what we want. Also we want
+to allow different teams to have different sprint lengths or no sprints at all.
+
+Therefore I have decided to try to go with a day as the time planning variable. 
+
+Having the task input as a prioritized might help speed up the planning (priority is task strength).
+
+## Work unit
+
+For simplicity we will start with person-days as work unit.
+
+The team velocities will be defined in person-days / day.
+
+
 ## Domain model
 
 Abbreviations:
@@ -40,19 +57,22 @@ Abbreviations:
 ### Team
 
 * **f: Skills** - for example module development, analysis, etc.
-* **f: Velocity** - net velocity. Might differ from sprint to sprint
-* **a: Backlog** - prioritized list of tasks (represented by it's anchor task)
+* **f: Velocity** - net velocity. Might differ for each day.
+* **s: Tasks** - prioritized list of tasks
 
 ### Task
 
 * **f: Skill** - team skill required for this task
 * **f: blockedBy** - list of tasks which must be finished before this task can be started
+* **f: startAfter** - task cannot be started before this day (external dependency)
 * **f: leadTime** - lead time needed before this task can be started after all blockers have been finished
-* **v: previousTask** - previous task in the backlog, null = unplanned
-* **f: work** - amount of work needed
-* **s: team** - team to which backlog this task belongs
-* **s: due** - previousTask.due + work / team.velocity
+* **v: startDay** - starting day of working on this task
+* **s: endDay** - when will this task be finished? (startDay + work / team.velocity / maxVelocity)
+* **f: work** - amount of work needed in person-days
+* **v: team** - team to which backlog this task belongs
+* **s: delayCost** - current cost of delay
 * **f: project** - project this task belongs to
+* **f: maxVelocity** - maximum velocity in person-days / day when working on this task
 
 ### Project
 
@@ -66,33 +86,9 @@ Abbreviations:
         * getting the project sounds great
         * however in reality the moment we get the project we will have a big problem because of an overcommitment
     * maybe we could add an constraint saying, that no project in the pipeline is allowed to be bigger, than the remaining unplanned capacity 
-* **f: costOfDelay** - cost of delay **!?** we start simply with a number, but this topic can get complex
+* **f: costOfDelay** - cost of delay **!?** we start simply with a number / person-day of delay, but this topic can get complex
 * **f: tasks** - tasks belonging to this project
-* **s: delay** - how much is the last planned task after due of project
-
-### Sprint
-
-* **f: number** - ordered sprint number
-
-Problems:
-
-* **!?** Some tasks cannot be handled with full team velocity (for example specification has waits for feedback of partners)
-* **!?** Dependencies between teams
-    * Easy within a team - order of tasks in backlog is sufficient
-    * Difficult between teams
-        * one possibility - execution start planning variable - don't like this idea
-        * other possibility - plan other tasks in the mean time, use "dummy blocker tasks" for slots without utilization
-        * dummy tasks don't have to be planned -> they even should not -> soft constraint - bad utilization
-
-Planning in Sprints seems to be the best option:
-
-* Dependent tasks cannot be handled in earlier or same sprint
-* Team velocity can be defined per sprint
-* Sprint should be long enough to specify packages small enough to not require 100% of BA capacity.
-* this however only works when all teams run in the same sprints 
-
-Having the task input as a prioritized might help speed up the planning (priority is task strength).
-
+* **s: delay** - how much is the last planned task late compared with project due time
 
 ## Visualization
 
@@ -102,4 +98,4 @@ Having the task input as a prioritized might help speed up the planning (priorit
 * Tasks past due date have red border
 * Dummy tasks show as empty space
 
-<img src="docs/visualization.svg" width="640" height="640">
+<img src="docs/visualization.png" width="640" height="640">

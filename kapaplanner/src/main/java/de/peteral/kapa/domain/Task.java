@@ -2,17 +2,11 @@ package de.peteral.kapa.domain;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import de.peteral.kapa.solver.TaskDifficultyComparator;
-import de.peteral.kapa.solver.TeamStrengthComparator;
-import org.optaplanner.core.api.domain.entity.PlanningEntity;
-import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
-import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@PlanningEntity(difficultyComparatorClass = TaskDifficultyComparator.class)
 @XStreamAlias("Task")
 public class Task extends AbstractDomainObject {
     @XStreamAsAttribute
@@ -20,14 +14,10 @@ public class Task extends AbstractDomainObject {
     @XStreamAsAttribute
     private int work;
 
-    @PlanningVariable(valueRangeProviderRefs = {"teamRange"}, strengthComparatorClass = TeamStrengthComparator.class)
-    private Team team;
+    private List<SubTask> subtasks;
 
     @XStreamAlias("PreviousTask")
     private Task previousTask;
-
-    @PlanningVariable(valueRangeProviderRefs = {"startTimeRange"})
-    private Integer startTime;
 
     private Project project;
 
@@ -42,25 +32,12 @@ public class Task extends AbstractDomainObject {
 
     }
 
-    @ValueRangeProvider(id = "startTimeRange")
-    public List<Integer> getPossibleTimes() {
-        return IntStream.rangeClosed(0, 500).boxed().collect(Collectors.toList());
-    }
-
     public String getSkill() {
         return skill;
     }
 
     public void setSkill(String skill) {
         this.skill = skill;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
     }
 
     public int getWork() {
@@ -84,19 +61,24 @@ public class Task extends AbstractDomainObject {
         this.previousTask = previousTask;
     }
 
-    public int getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
-
     public Project getProject() {
         return project;
     }
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public List<SubTask> getSubtasks() {
+        return subtasks;
+    }
+
+    public void setSubtasks(List<SubTask> subtasks) {
+        this.subtasks = subtasks;
+    }
+
+    public void generateSubTasks() {
+        this.subtasks = new ArrayList<>();
+        IntStream.range(0, getWork()).forEach(i -> this.subtasks.add(new SubTask(this, 1)));
     }
 }

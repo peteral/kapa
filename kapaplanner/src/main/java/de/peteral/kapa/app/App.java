@@ -17,8 +17,6 @@ public class App {
         Solver<Schedule> solver = factory.buildSolver();
 
         Schedule unsolvedSchedule = Loader.load(App.class.getResource("../solver/teams-1.xml"), App.class.getResource("../solver/projects-1.xml"));
-        // hack - empty collections not initialized by XStream, but needed by OptaPlanner
-        unsolvedSchedule.getTeams().stream().forEach(team -> team.setTasks(Collections.emptyList()));
 
         LOGGER.info("Unsolved schedule: " + unsolvedSchedule);
 

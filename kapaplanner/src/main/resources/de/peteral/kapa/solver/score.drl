@@ -4,6 +4,8 @@ package de.peteral.kapa.solver
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
 
 import de.peteral.kapa.domain.Task
+import de.peteral.kapa.domain.SubTask
+import de.peteral.kapa.domain.Sprint
 import de.peteral.kapa.domain.Team
 import java.util.stream.Collectors
 
@@ -13,24 +15,28 @@ global HardSoftScoreHolder scoreHolder;
 
 rule "Task must be assigned"
     when
-        Task(team == null)
+        SubTask(sprint == null)
     then
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
 rule "Team must have required skill"
     when
-        Task(team != null, team.skills not contains skill)
+        SubTask(sprint != null, sprint.team.skills not contains task.skill)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+rule "Cannot plan above sprint velocity"
+    when
+        $sprint : Sprint()
+        accumulate(
+            SubTask(sprint == $sprint, $work : work);
+            $total : sum($work);
+            $total > $sprint.velocity
+        )
     then
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
 // Soft constraints
-
-// just messing around - this won't really work
-rule "Same work per team with same skill"
-    when
-        Team($totalWork : getTotalWork(), getTotalWork() > 70)
-    then
-        scoreHolder.addSoftConstraintMatch(kcontext, - $totalWork);
-end

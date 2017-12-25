@@ -5,7 +5,7 @@
 
     <!-- Define the score function -->
     <scoreDirectorFactory>
-        <scoreDrl>de/peteral/kapa/solver/capabilityPlan.drl</scoreDrl>
+        <scoreDrl>de/peteral/kapa/solver/score.drl</scoreDrl>
     </scoreDirectorFactory>
 
 <!--

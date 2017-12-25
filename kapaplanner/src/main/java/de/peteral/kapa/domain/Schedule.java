@@ -1,7 +1,5 @@
 package de.peteral.kapa.domain;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
@@ -15,45 +13,28 @@ import java.util.stream.Collectors;
 
 @PlanningSolution
 public class Schedule {
-    @ValueRangeProvider(id = "taskRange")
-    @PlanningEntityCollectionProperty
-    private List<Task> tasks;
-
-    @ValueRangeProvider(id = "teamRange")
+    @ValueRangeProvider(id = "sprintRange")
     @ProblemFactCollectionProperty
-    private List<Team> teams;
+    private List<Sprint> sprints;
 
-    private List<Project> projects;
+    @PlanningEntityCollectionProperty
+    private List<SubTask> subTasks;
 
     @PlanningScore
     private HardSoftScore score;
 
-    public Schedule(List<Team> teams, List<Project> projects) {
+    private List<Team> teams;
 
+    public Schedule(List<Team> teams, List<Project> projects) {
         this.teams = teams;
-        this.projects = projects;
-        this.tasks = new ArrayList<>();
-        projects.stream().forEach(project -> project.getTasks().stream().forEach(this.tasks::add));
+        this.sprints = new ArrayList<>();
+        this.subTasks = new ArrayList<>();
+        projects.forEach(project -> project.getTasks().forEach(task -> task.getSubtasks().forEach(this.subTasks::add)));
+        teams.forEach(team -> team.getSprints().forEach(this.sprints::add));
     }
 
     public Schedule() {
 
-    }
-
-    public List<Team> getTeams() {
-        return teams;
-    }
-
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
     }
 
     public HardSoftScore getScore() {
@@ -66,10 +47,22 @@ public class Schedule {
 
     @Override
     public String toString() {
-        return new StringBuilder()
-                .append("\n\tUnassigned tasks:\t")
-                .append(tasks.stream().filter(task -> task.getTeam() == null).map(task -> "" + task).collect(Collectors.joining(", ")))
-                .append("\n\tAssigned tasks:\n\t\t")
-                .append(teams.stream().map(team -> team.toString()).collect(Collectors.joining("\n\t\t")).toString()).toString();
+        return teams.toString();
+    }
+
+    public List<Sprint> getSprints() {
+        return sprints;
+    }
+
+    public void setSprints(List<Sprint> sprints) {
+        this.sprints = sprints;
+    }
+
+    public List<SubTask> getSubTasks() {
+        return subTasks;
+    }
+
+    public void setSubTasks(List<SubTask> subTasks) {
+        this.subTasks = subTasks;
     }
 }

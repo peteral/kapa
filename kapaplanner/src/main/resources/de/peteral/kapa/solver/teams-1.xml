@@ -1,17 +1,47 @@
 <Teams>
-    <Team id="1" velocity="3">
+    <Team id="1">
         <Skill>ANALYSIS</Skill>
+        <Sprint id="1" name="7.20" velocity="24"/>
+        <Sprint id="2" name="7.21" velocity="25"/>
+        <Sprint id="3" name="7.22" velocity="20"/>
+        <Sprint id="4" name="7.23" velocity="30"/>
+        <Sprint id="5" name="7.24" velocity="28"/>
+        <Sprint id="6" name="7.25" velocity="27"/>
     </Team>
-    <Team id="2" velocity="5">
+    <Team id="2">
         <Skill>PLATFORM_DEVELOPMENT</Skill>
+        <Sprint id="11" name="7.20" velocity="45"/>
+        <Sprint id="12" name="7.21" velocity="48"/>
+        <Sprint id="13" name="7.22" velocity="43"/>
+        <Sprint id="14" name="7.23" velocity="40"/>
+        <Sprint id="15" name="7.24" velocity="52"/>
+        <Sprint id="16" name="7.25" velocity="50"/>
     </Team>
-    <Team id="3" velocity="6">
+    <Team id="3">
         <Skill>PLATFORM_DEVELOPMENT</Skill>
+        <Sprint id="21" name="7.20" velocity="35"/>
+        <Sprint id="22" name="7.21" velocity="36"/>
+        <Sprint id="23" name="7.22" velocity="32"/>
+        <Sprint id="24" name="7.23" velocity="39"/>
+        <Sprint id="25" name="7.24" velocity="42"/>
+        <Sprint id="26" name="7.25" velocity="20"/>
     </Team>
-    <Team id="4" velocity="7">
+    <Team id="4">
         <Skill>PROJECT_DEVELOPMENT</Skill>
+        <Sprint id="31" name="7.20" velocity="40"/>
+        <Sprint id="32" name="7.21" velocity="40"/>
+        <Sprint id="33" name="7.22" velocity="40"/>
+        <Sprint id="34" name="7.23" velocity="40"/>
+        <Sprint id="35" name="7.24" velocity="52"/>
+        <Sprint id="36" name="7.25" velocity="38"/>
     </Team>
-    <Team id="5" velocity="4">
+    <Team id="5">
         <Skill>CUSTOMIZING</Skill>
+        <Sprint id="41" name="7.20" velocity="20"/>
+        <Sprint id="42" name="7.21" velocity="20"/>
+        <Sprint id="43" name="7.22" velocity="20"/>
+        <Sprint id="44" name="7.23" velocity="20"/>
+        <Sprint id="45" name="7.24" velocity="20"/>
+        <Sprint id="46" name="7.25" velocity="20"/>
     </Team>
 </Teams>

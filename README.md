@@ -26,15 +26,14 @@ This software is based on [OptaPlanner](https://www.optaplanner.org/)
     * Not delivering committed feature on time leads to unsatisfied customers and even to penalties
     * Not creating a product feature lowers competitiveness and may even lead to loosing projects
     * Delivering  product feature ahead of schedule might be rewarding and therefore lead to negative costs of delay
-* High team utilization
+* High sprint utilization
     * Teams should be fully utilized
 
 ## Work unit
 
 For simplicity we will start with person-days as work unit.
 
-The team velocities will be defined in person-days / day.
-
+The sprint velocities will be defined in person-days / day.
 
 ## Domain model
 
@@ -47,19 +46,28 @@ Abbreviations:
 ### Team
 
 * **f: Skills** - for example module development, analysis, etc.
-* **s: Sprints** - team backlog split up in sprints
+* **s: Sprints** - sprint backlog split up in sprints
 
 ### Task
 
-* **f: Skill** - team skill required for this task
+Tasks will be split into small sub tasks (1 unit of work?) so they can be easily planned.
+Soft constraint pressure should lead to sub tasks being finished in the same sprint.
+
+* **f: Skill** - sprint skill required for this task
 * **f: blockedBy** - list of projects which must be finished before this task can be started
 * **f: startAfter** - task cannot be started before this day (external dependency)
 * **f: leadTime** - lead time needed before this task can be started after all blockers have been finished
-* **v: sprint** - sprint in which the work on this task starts
+* **f: subTasks** - sub tasks for planning
 * **f: work** - amount of work needed in person-days
-* **v: team** - team to which backlog this task belongs
 * **s: delayCost** - current cost of delay
 * **f: project** - project this task belongs to
+* **f: maxVelocity**
+
+### Subtask
+
+* **v: sprint** - sprint in which the work on this task starts
+* **f: work** - amount of work needed in person-days
+* **f: task** - parent task
 
 ### Project
 
@@ -82,20 +90,19 @@ Abbreviations:
 I have decided to make following assumptions in order to get the time-domain plannable:
 
 * we plan in sprints
-* tasks are done in sequence
-* when parallel work in a team is necessary because tasks can only be handled by one resource, 
-then we will have to create a team per resource
+* sprints are done in sequence
+* when parallel work in a sprint is necessary because sprints can only be handled by one resource, 
+then we will have to create a sprint per resource
 * all teams have the same duration of sprints 
 
-* **s: tasks** tasks starting in this sprint
-* **s: sprintTasks** tasks split into per-sprint pieces; when a task is moved we will remove all pieces and 
-assign them anew 
-* **f: team** team to whose backlog this sprint belongs
-* **f: velocity** the team's velocity in this sprint
+* **s: sprints** sprints starting in this sprint
+* **f: sprint** sprint to whose backlog this sprint belongs
+* **f: velocity** the sprint's velocity in this sprint
+* **f: name** sprints with same name are the same sprints (same column on time axis)
 
 ## Visualization
 
-* Backlog per team with time axis
+* Backlog per sprint with time axis
 * **!?** how should we visualize variable speed?
 * Tasks of each project have different background
 * Tasks past due date have red border

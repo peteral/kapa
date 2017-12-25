@@ -5,7 +5,6 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
 
 import de.peteral.kapa.domain.Task
 import de.peteral.kapa.domain.Team
-import de.peteral.kapa.domain.Skill
 import java.util.stream.Collectors
 
 global HardSoftScoreHolder scoreHolder;

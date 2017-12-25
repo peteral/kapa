@@ -1,7 +1,7 @@
 package de.peteral.kapa.app;
 
 import de.peteral.kapa.domain.Schedule;
-import de.peteral.kapa.xstream.XStreamFactory;
+import de.peteral.kapa.xstream.Loader;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.slf4j.Logger;
@@ -16,7 +16,7 @@ public class App {
         SolverFactory<Schedule> factory = SolverFactory.createFromXmlResource("de/peteral/kapa/solver/solverConfig.xml");
         Solver<Schedule> solver = factory.buildSolver();
 
-        Schedule unsolvedSchedule = (Schedule) XStreamFactory.create().fromXML(App.class.getResource("../solver/dataset-1.xml"));
+        Schedule unsolvedSchedule = Loader.load(App.class.getResource("../solver/teams-1.xml"), App.class.getResource("../solver/tasks-1.xml"));
         // hack - empty collections not initialized by XStream, but needed by OptaPlanner
         unsolvedSchedule.getTeams().stream().forEach(team -> team.setTasks(Collections.emptyList()));
 

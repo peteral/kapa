@@ -1,0 +1,14 @@
+<Teams>
+    <Team id="1">
+        <Skill>ANALYSIS</Skill>
+    </Team>
+    <Team id="2">
+        <Skill>PLATFORM_DEVELOPMENT</Skill>
+    </Team>
+    <Team id="3">
+        <Skill>PLATFORM_DEVELOPMENT</Skill>
+    </Team>
+    <Team id="4">
+        <Skill>PROJECT_DEVELOPMENT</Skill>
+    </Team>
+</Teams>

@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 @XStreamAlias("Task")
 public class Task extends AbstractDomainObject {
     @XStreamAsAttribute
-    private Skill skill;
+    private String skill;
     @XStreamAsAttribute
     private int work;
 
@@ -30,7 +30,7 @@ public class Task extends AbstractDomainObject {
     private Integer startTime;
 
 
-    public Task(long id, Skill skill, int work) {
+    public Task(long id, String skill, int work) {
         super(id);
         this.skill = skill;
         this.work = work;
@@ -45,11 +45,11 @@ public class Task extends AbstractDomainObject {
         return IntStream.rangeClosed(0, 500).boxed().collect(Collectors.toList());
     }
 
-    public Skill getSkill() {
+    public String getSkill() {
         return skill;
     }
 
-    public void setSkill(Skill skill) {
+    public void setSkill(String skill) {
         this.skill = skill;
     }
 

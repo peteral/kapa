@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 public class Team extends AbstractDomainObject {
 
     @XStreamImplicit(itemFieldName = "Skill")
-    private List<Skill> skills;
+    private List<String> skills;
 
     @InverseRelationShadowVariable(sourceVariableName = "team")
     @XStreamAlias("Tasks")
     private List<Task> tasks;
 
-    public Team(long id, Skill... capabilities) {
+    public Team(long id, String... capabilities) {
         super(id);
         this.skills = Arrays.asList(capabilities);
     }
@@ -29,7 +29,7 @@ public class Team extends AbstractDomainObject {
 
     }
 
-    public List<Skill> getSkills() {
+    public List<String> getSkills() {
         return skills;
     }
 

@@ -1,6 +1,7 @@
 package de.peteral.kapa.domain;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.InverseRelationShadowVariable;
@@ -17,8 +18,11 @@ public class Team extends AbstractDomainObject {
     private List<String> skills;
 
     @InverseRelationShadowVariable(sourceVariableName = "team")
-    @XStreamAlias("Tasks")
+    @XStreamAlias("Projects")
     private List<Task> tasks;
+
+    @XStreamAsAttribute
+    private int velocity;
 
     public Team(long id, String... capabilities) {
         super(id);
@@ -51,5 +55,13 @@ public class Team extends AbstractDomainObject {
 
     public int getTotalWork() {
         return getTasks().stream().collect(Collectors.summingInt(Task::getWork));
+    }
+
+    public int getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(int velocity) {
+        this.velocity = velocity;
     }
 }

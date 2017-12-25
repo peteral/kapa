@@ -1,14 +1,17 @@
 <Teams>
-    <Team id="1">
+    <Team id="1" velocity="3">
         <Skill>ANALYSIS</Skill>
     </Team>
-    <Team id="2">
+    <Team id="2" velocity="5">
         <Skill>PLATFORM_DEVELOPMENT</Skill>
     </Team>
-    <Team id="3">
+    <Team id="3" velocity="6">
         <Skill>PLATFORM_DEVELOPMENT</Skill>
     </Team>
-    <Team id="4">
+    <Team id="4" velocity="7">
         <Skill>PROJECT_DEVELOPMENT</Skill>
+    </Team>
+    <Team id="5" velocity="4">
+        <Skill>CUSTOMIZING</Skill>
     </Team>
 </Teams>

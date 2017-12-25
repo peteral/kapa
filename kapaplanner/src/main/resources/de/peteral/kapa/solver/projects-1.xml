@@ -1,0 +1,14 @@
+<Projects>
+    <Project id="1">
+        <Task id="1" skill="ANALYSIS" work="10"/>
+        <Task id="2" skill="PLATFORM_DEVELOPMENT" work="50">
+            <PreviousTask reference="../../Task[1]"/>
+        </Task>
+    </Project>
+    <Project id="2">
+        <Task id="3" skill="ANALYSIS" work="15"/>
+        <Task id="4" skill="PLATFORM_DEVELOPMENT" work="70"/>
+        <Task id="5" skill="PROJECT_DEVELOPMENT" work="70"/>
+        <Task id="6" skill="PLATFORM_DEVELOPMENT" work="10"/>
+    </Project>
+</Projects>

@@ -29,6 +29,8 @@ public class Task extends AbstractDomainObject {
     @PlanningVariable(valueRangeProviderRefs = {"startTimeRange"})
     private Integer startTime;
 
+    private Project project;
+
 
     public Task(long id, String skill, int work) {
         super(id);
@@ -88,5 +90,13 @@ public class Task extends AbstractDomainObject {
 
     public void setStartTime(int startTime) {
         this.startTime = startTime;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

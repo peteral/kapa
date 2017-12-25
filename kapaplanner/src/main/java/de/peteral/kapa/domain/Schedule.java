@@ -9,6 +9,7 @@ import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProp
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,13 +23,17 @@ public class Schedule {
     @ProblemFactCollectionProperty
     private List<Team> teams;
 
+    private List<Project> projects;
+
     @PlanningScore
     private HardSoftScore score;
 
-    public Schedule(List<Team> teams, List<Task> tasks) {
+    public Schedule(List<Team> teams, List<Project> projects) {
 
         this.teams = teams;
-        this.tasks = tasks;
+        this.projects = projects;
+        this.tasks = new ArrayList<>();
+        projects.stream().forEach(project -> project.getTasks().stream().forEach(this.tasks::add));
     }
 
     public Schedule() {

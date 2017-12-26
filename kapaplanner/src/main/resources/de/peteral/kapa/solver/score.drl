@@ -56,7 +56,13 @@ rule "Task dependency must not be violated"
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-// task start after
+// FIXME relying on ascending order in sprint names in configuration data here
+rule "Task cannot start before first possible sprint (external dependency)"
+    when
+        Task(firstPossibleSprint != null, firstSprint != null, firstSprint.name.compareTo(firstPossibleSprint) < 0)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
 
 // task lead time
 

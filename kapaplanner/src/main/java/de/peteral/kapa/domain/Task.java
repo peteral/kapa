@@ -8,6 +8,7 @@ import de.peteral.kapa.solver.LastSprintListener;
 import de.peteral.kapa.solver.TaskMaxVelocityListener;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
+import org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty;
 import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
@@ -29,6 +30,10 @@ public class Task extends AbstractDomainObject {
     @XStreamImplicit(itemFieldName = "PreviousTask")
     @ProblemFactCollectionProperty
     private List<Task> previousTasks;
+
+    @ProblemFactProperty
+    @XStreamAsAttribute
+    private String firstPossibleSprint;
 
     private Project project;
 
@@ -150,5 +155,13 @@ public class Task extends AbstractDomainObject {
 
     public void setFirstSprint(Sprint firstSprint) {
         this.firstSprint = firstSprint;
+    }
+
+    public String getFirstPossibleSprint() {
+        return firstPossibleSprint;
+    }
+
+    public void setFirstPossibleSprint(String firstPossibleSprint) {
+        this.firstPossibleSprint = firstPossibleSprint;
     }
 }

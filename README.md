@@ -55,7 +55,7 @@ Soft constraint pressure should lead to sub tasks being finished in the same spr
 
 * **f: Skill** - sprint skill required for this task
 * **f: blockedBy** - list of projects which must be finished before this task can be started
-* **f: startAfter** - task cannot be started before this day (external dependency)
+* **f: firstPossibleSprint** - task cannot be started before this sprint (external dependency)
 * **f: leadTime** - lead time needed before this task can be started after all blockers have been finished
 * **f: subTasks** - sub tasks for planning
 * **f: work** - amount of work needed in person-days

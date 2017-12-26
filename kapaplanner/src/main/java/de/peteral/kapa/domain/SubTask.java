@@ -43,6 +43,11 @@ public class SubTask extends AbstractDomainObject {
 
     @Override
     public String toString() {
+        return String.format("Subtask-%d", getId());
+    }
+
+    @Override
+    public String getLabel() {
         return String.format("Subtask-%d (%s - %d)", getId(), getTask().getId(), getWork());
     }
 

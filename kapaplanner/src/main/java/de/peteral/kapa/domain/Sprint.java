@@ -27,6 +27,11 @@ public class Sprint extends AbstractDomainObject {
 
     @Override
     public String toString() {
+        return String.format("Sprint-%d", getId());
+    }
+
+    @Override
+    public String getLabel() {
         return new StringBuilder()
                 .append(String.format("Sprint %1s (%2d) %3d", getName(), getId(), getVelocity()))
                 .toString();

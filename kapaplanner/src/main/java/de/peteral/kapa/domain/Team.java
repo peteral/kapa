@@ -19,9 +19,9 @@ public class Team extends AbstractDomainObject {
     @XStreamImplicit(itemFieldName = "Sprint")
     private List<Sprint> sprints;
 
-    public Team(long id, String... capabilities) {
+    public Team(long id, String... skills) {
         super(id);
-        this.skills = Arrays.asList(capabilities);
+        this.skills = Arrays.asList(skills);
     }
 
     public Team() {
@@ -34,6 +34,11 @@ public class Team extends AbstractDomainObject {
 
     @Override
     public String toString() {
+        return String.format("Team-%1d", getId());
+    }
+
+    @Override
+    public String getLabel() {
 
         return new StringBuilder("\n")
                 .append(String.format("Team-%1d (%2s): ", getId(), getSkills()))

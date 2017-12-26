@@ -37,11 +37,11 @@ public class Visualization {
         StringBuilder result = new StringBuilder();
 
         data.forEach((team, sprints) -> {
-            result.append("\n").append(team);
+            result.append("\n").append(team.getLabel());
             sprints.forEach((sprint, tasks) -> {
-                result.append("\n\t").append(sprint);
+                result.append("\n\t").append(sprint.getLabel());
                 tasks.forEach((task, subTasks) ->
-                    result.append("\n\t\t").append(task).append("/").append(
+                    result.append("\n\t\t").append(task.getLabel()).append("/").append(
                             subTasks.stream().collect(Collectors.summarizingLong(SubTask::getWork)).getSum()
                     )
                 );

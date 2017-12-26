@@ -44,4 +44,8 @@ public class AbstractDomainObject implements Serializable, Comparable<AbstractDo
 
         return Objects.hash(id);
     }
+
+    public String getLabel() {
+        return toString();
+    }
 }

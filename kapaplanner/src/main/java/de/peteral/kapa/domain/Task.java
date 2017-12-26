@@ -2,8 +2,11 @@ package de.peteral.kapa.domain;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import de.peteral.kapa.solver.FirstSprintListener;
+import de.peteral.kapa.solver.LastSprintListener;
 import de.peteral.kapa.solver.TaskMaxVelocityListener;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty;
 import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
@@ -24,6 +27,7 @@ public class Task extends AbstractDomainObject {
     private List<SubTask> subtasks;
 
     @XStreamAlias("PreviousTask")
+    @ProblemFactProperty
     private Task previousTask;
 
     private Project project;
@@ -35,6 +39,16 @@ public class Task extends AbstractDomainObject {
             variableListenerClass = TaskMaxVelocityListener.class,
             sources = {@PlanningVariableReference(variableName = "sprint", entityClass = SubTask.class)})
     private Boolean sprintViolatesMaxVelocity;
+
+    @CustomShadowVariable(
+            variableListenerClass = FirstSprintListener.class,
+            sources = {@PlanningVariableReference(variableName = "sprint", entityClass = SubTask.class)})
+    private Sprint firstSprint;
+
+    @CustomShadowVariable(
+            variableListenerClass = LastSprintListener.class,
+            sources = {@PlanningVariableReference(variableName = "sprint", entityClass = SubTask.class)})
+    private Sprint lastSprint;
 
     public Task(long id, String skill, long work) {
         super(id);
@@ -64,7 +78,8 @@ public class Task extends AbstractDomainObject {
 
     @Override
     public String toString() {
-        return String.format("Task-%d (%s) - %d", getId(), getSkill(), getWork());
+        return String.format("Task-%d (%s) (B: %s) - %d",
+                getId(), getSkill(), (getPreviousTask() == null) ? "n.A." : getPreviousTask().getId(), getWork());
     }
 
     public Task getPreviousTask() {
@@ -110,5 +125,21 @@ public class Task extends AbstractDomainObject {
 
     public void setSprintViolatesMaxVelocity(Boolean sprintViolatesMaxVelocity) {
         this.sprintViolatesMaxVelocity = sprintViolatesMaxVelocity;
+    }
+
+    public Sprint getLastSprint() {
+        return lastSprint;
+    }
+
+    public void setLastSprint(Sprint lastSprint) {
+        this.lastSprint = lastSprint;
+    }
+
+    public Sprint getFirstSprint() {
+        return firstSprint;
+    }
+
+    public void setFirstSprint(Sprint firstSprint) {
+        this.firstSprint = firstSprint;
     }
 }

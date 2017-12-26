@@ -39,14 +39,21 @@ rule "Cannot plan above sprint velocity"
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-rule "Max task velocity"
+rule "Max task velocity per sprint must not be exceeded"
     when
         Task(sprintViolatesMaxVelocity)
     then
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-// task dependencies
+// FIXME relying on ascending order in sprint names in configuration data here
+rule "Task dependency must not be violated"
+    when
+        Task(firstSprint != null, previousTask != null, previousTask.lastSprint != null,
+            firstSprint.name.compareTo(previousTask.lastSprint.name) <= 0)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
 
 // task start after
 

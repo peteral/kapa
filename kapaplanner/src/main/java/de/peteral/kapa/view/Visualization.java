@@ -40,11 +40,11 @@ public class Visualization {
             result.append("\n").append(team);
             sprints.forEach((sprint, tasks) -> {
                 result.append("\n\t").append(sprint);
-                tasks.forEach((task, subTasks) -> {
-                    result.append("\n\t\t").append(task).append(" (").append(
-                            subTasks.stream().collect(Collectors.summarizingInt(SubTask::getWork)).getSum()
-                    ).append(")");
-                });
+                tasks.forEach((task, subTasks) ->
+                    result.append("\n\t\t").append(task).append("/").append(
+                            subTasks.stream().collect(Collectors.summarizingLong(SubTask::getWork)).getSum()
+                    )
+                );
             });
         });
 

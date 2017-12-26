@@ -2,17 +2,24 @@ package de.peteral.kapa.domain;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import de.peteral.kapa.solver.TaskMaxVelocityListener;
+import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
+import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 @XStreamAlias("Task")
+@PlanningEntity
 public class Task extends AbstractDomainObject {
     @XStreamAsAttribute
     private String skill;
     @XStreamAsAttribute
-    private int work;
+    private long work;
 
     private List<SubTask> subtasks;
 
@@ -21,8 +28,15 @@ public class Task extends AbstractDomainObject {
 
     private Project project;
 
+    @XStreamAsAttribute
+    private int maxVelocity;
 
-    public Task(long id, String skill, int work) {
+    @CustomShadowVariable(
+            variableListenerClass = TaskMaxVelocityListener.class,
+            sources = {@PlanningVariableReference(variableName = "sprint", entityClass = SubTask.class)})
+    private Boolean sprintViolatesMaxVelocity;
+
+    public Task(long id, String skill, long work) {
         super(id);
         this.skill = skill;
         this.work = work;
@@ -40,17 +54,17 @@ public class Task extends AbstractDomainObject {
         this.skill = skill;
     }
 
-    public int getWork() {
+    public long getWork() {
         return work;
     }
 
-    public void setWork(int work) {
+    public void setWork(long work) {
         this.work = work;
     }
 
     @Override
     public String toString() {
-        return String.format("Task-%d (%s - %d)", getId(), getSkill(), getWork());
+        return String.format("Task-%d (%s) - %d", getId(), getSkill(), getWork());
     }
 
     public Task getPreviousTask() {
@@ -79,6 +93,22 @@ public class Task extends AbstractDomainObject {
 
     public void generateSubTasks() {
         this.subtasks = new ArrayList<>();
-        IntStream.range(0, getWork()).forEach(i -> this.subtasks.add(new SubTask(this, 1)));
+        LongStream.range(0, getWork()).forEach(i -> this.subtasks.add(new SubTask(this, 1)));
+    }
+
+    public int getMaxVelocity() {
+        return maxVelocity;
+    }
+
+    public void setMaxVelocity(int maxVelocity) {
+        this.maxVelocity = maxVelocity;
+    }
+
+    public Boolean getSprintViolatesMaxVelocity() {
+        return (sprintViolatesMaxVelocity == null) ? Boolean.FALSE : sprintViolatesMaxVelocity;
+    }
+
+    public void setSprintViolatesMaxVelocity(Boolean sprintViolatesMaxVelocity) {
+        this.sprintViolatesMaxVelocity = sprintViolatesMaxVelocity;
     }
 }

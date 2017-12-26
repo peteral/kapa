@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class Sprint extends AbstractDomainObject {
 
     @XStreamAsAttribute
-    private int velocity;
+    private long velocity;
 
     @XStreamAsAttribute
     private String name;
@@ -28,15 +28,15 @@ public class Sprint extends AbstractDomainObject {
     @Override
     public String toString() {
         return new StringBuilder()
-                .append(String.format("Sprint-%1d (%2s - %3s = %4d)", getId(), getTeam().getId(), getName(), getVelocity()))
+                .append(String.format("Sprint %1s (%2d) %3d", getName(), getId(), getVelocity()))
                 .toString();
     }
 
-    public int getVelocity() {
+    public long getVelocity() {
         return velocity;
     }
 
-    public void setVelocity(int velocity) {
+    public void setVelocity(long velocity) {
         this.velocity = velocity;
     }
 

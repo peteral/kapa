@@ -5,7 +5,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 @PlanningEntity
 public class SubTask extends AbstractDomainObject {
-    private int work;
+    private long work;
 
     private static long sequence = 1;
 
@@ -14,7 +14,7 @@ public class SubTask extends AbstractDomainObject {
 
     private Task task;
 
-    public SubTask(Task task, int work) {
+    public SubTask(Task task, long work) {
         super(sequence++);
         this.task = task;
         this.work = work;
@@ -33,11 +33,11 @@ public class SubTask extends AbstractDomainObject {
         this.sprint = sprint;
     }
 
-    public int getWork() {
+    public long getWork() {
         return work;
     }
 
-    public void setWork(int work) {
+    public void setWork(long work) {
         this.work = work;
     }
 

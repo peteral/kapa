@@ -39,4 +39,21 @@ rule "Cannot plan above sprint velocity"
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
+rule "Max task velocity"
+    when
+        Task(sprintViolatesMaxVelocity)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+// task dependencies
+
+// task start after
+
+// task lead time
+
 // Soft constraints
+
+// sprint utilization
+
+// costs of delay

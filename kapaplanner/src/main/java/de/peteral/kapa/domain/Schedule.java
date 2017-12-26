@@ -18,6 +18,9 @@ public class Schedule {
     @PlanningEntityCollectionProperty
     private List<SubTask> subTasks;
 
+    @PlanningEntityCollectionProperty
+    private List<Task> tasks;
+
     @PlanningScore
     private HardSoftScore score;
 
@@ -27,7 +30,11 @@ public class Schedule {
         this.teams = teams;
         this.sprints = new ArrayList<>();
         this.subTasks = new ArrayList<>();
-        projects.forEach(project -> project.getTasks().forEach(task -> task.getSubtasks().forEach(this.subTasks::add)));
+        this.tasks = new ArrayList<>();
+        projects.forEach(project -> project.getTasks().forEach(task ->  {
+            this.tasks.add(task);
+            task.getSubtasks().forEach(this.subTasks::add);
+        }));
         teams.forEach(team -> team.getSprints().forEach(this.sprints::add));
     }
 
@@ -62,5 +69,13 @@ public class Schedule {
 
     public void setSubTasks(List<SubTask> subTasks) {
         this.subTasks = subTasks;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

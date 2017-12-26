@@ -1,11 +1,12 @@
 # kapa
 
+<img src="docs/visualization.png" width="640" height="640">
+
 ## System overview 
 
-<img src="docs/flow-chart.svg" width="640" height="400">
-
-
 This software is based on [OptaPlanner](https://www.optaplanner.org/)
+
+<img src="docs/flow-chart.svg" width="640" height="400">
 
 ## Planning constraints
 
@@ -101,12 +102,25 @@ directly but split them into smaller chunks (sub-tasks) and plan them.
 * **f: velocity** the sprint's velocity in this sprint
 * **f: name** sprints with same name are the same sprints (same column on time axis)
 
-## Visualization
+## Configuration files
 
-* Backlog per sprint with time axis
-* **!?** how should we visualize variable speed?
-* Tasks of each project have different background
-* Tasks past due date have red border
-* Dummy projects show as empty space
+This file defines the projects, their individual tasks, required skills and dependencies.
 
-<img src="docs/visualization.png" width="640" height="640">
+For example see [config/projects-1.xml](https://github.com/peteral/kapa/blob/master/config/projects-1.xml)
+
+### Teams
+
+This file defines teams, their skills and sprints to be planned.
+Sprints with the same name in different teams are considered the same sprints.
+The sprint names must be ascending.
+
+For example see [config/teams-1.xml](https://github.com/peteral/kapa/blob/master/config/teams-1.xml)
+
+### Projects
+
+## Score function
+
+The Score function is implemented as a [Drools](https://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/index.html) ruleset
+
+Currently the function is embedded in the software under 
+[src/main/resources/de/peteral/kapa/solver/score.drl](https://github.com/peteral/kapa/blob/master/kapaplanner/src/main/resources/de/peteral/kapa/solver/score.drl)

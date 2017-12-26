@@ -59,7 +59,7 @@ Soft constraint pressure should lead to sub tasks being finished in the same spr
 * **f: leadTime** - lead time needed before this task can be started after all blockers have been finished
 * **f: subTasks** - sub tasks for planning
 * **f: work** - amount of work needed in person-days
-* **s: delayCost** - current cost of delay
+* **s: delayCost** - current cost of delay for this task (project.costsOfDelay * sprintsDue)
 * **f: project** - project this task belongs to
 * **f: maxVelocity** - maximum velocity of this task per sprint (external waits, only 1 person in team can work on 
 this task, etc.)
@@ -82,9 +82,8 @@ this task, etc.)
         * getting the project sounds great
         * however in reality the moment we get the project we will have a big problem because of an overcommitment
     * maybe we could add an constraint saying, that no project in the pipeline is allowed to be bigger, than the remaining unplanned capacity 
-* **f: costOfDelay** - cost of delay **!?** we start simply with a number / person-day of delay, but this topic can get complex
-* **f: projects** - projects belonging to this project
-* **s: delay** - how much is the last planned task late compared with project due time
+* **f: costOfDelay** - cost of delay **!?** we start simply with a number / sprint of delay, but this topic can get complex
+* **f: tasks** - tasks belonging to this project
 
 ### Time Domain - Sprint
 

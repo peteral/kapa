@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 public class Visualization {
     private final Map<Team, Map<Sprint, Map<Task, List<SubTask>>>> data;
+    private final Map<Project, Sprint> projects;
 
     public Visualization(Schedule schedule) {
         data = new HashMap<>();
@@ -30,11 +31,21 @@ public class Visualization {
 
             subTasks.add(subTask);
         });
+
+        projects = new HashMap<>();
+        schedule.getTasks().forEach(task -> {
+            Sprint lastProjectSprint = projects.get(task.getProject());
+            if (lastProjectSprint == null || lastProjectSprint.compareTo(task.getLastSprint()) < 0)
+                projects.put(task.getProject(), task.getLastSprint());
+        });
     }
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder()
+            .append("Backlogs:\n")
+            .append("-----------------------------------")
+        ;
 
         data.forEach((team, sprints) -> {
             result.append("\n").append(team.getLabel());
@@ -47,6 +58,14 @@ public class Visualization {
                 );
             });
         });
+
+        result.append("\nProjects:\n")
+            .append("-----------------------------------");
+
+        projects.forEach(((project, sprint) ->
+            result.append(
+                String.format("\n%d: due (%s), finished(%s)", project.getId(), project.getDue(), sprint.getName()))
+        ));
 
         return result.toString();
     }

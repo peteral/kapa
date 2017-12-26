@@ -88,11 +88,13 @@ public class Task extends AbstractDomainObject {
 
     @Override
     public String getLabel() {
-        return String.format("P-%d: Task-%d (%s) (B: %s) - %d",
+        return String.format("P-%d: Task-%d (%s) (B: %s) (F: %s) (L: %s) - %d",
                 getProject().getId(), getId(), getSkill(),
                 (getPreviousTasks() == null || getPreviousTasks().isEmpty()) ? "n.A." :
                         getPreviousTasks().stream().map(task -> "" + task.getId())
                                 .collect(Collectors.joining(", ")),
+                getFirstSprint().getName(),
+                getLastSprint().getName(),
                 getWork());
     }
 

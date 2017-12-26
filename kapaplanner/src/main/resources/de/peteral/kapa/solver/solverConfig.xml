@@ -8,14 +8,23 @@
         <scoreDrl>de/peteral/kapa/solver/score.drl</scoreDrl>
     </scoreDirectorFactory>
 
-<!--
     <constructionHeuristic>
         <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+        <termination>
+            <secondsSpentLimit>20</secondsSpentLimit>
+        </termination>
     </constructionHeuristic>
--->
+
+    <localSearch>
+        <termination>
+            <secondsSpentLimit>20</secondsSpentLimit>
+        </termination>
+    </localSearch>
 
     <termination>
-        <secondsSpentLimit>30</secondsSpentLimit>
+        <secondsSpentLimit>40</secondsSpentLimit>
+        <!--<bestScoreLimit>0hard/0soft</bestScoreLimit>-->
     </termination>
+
 </solver>
 

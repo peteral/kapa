@@ -64,10 +64,18 @@ rule "Task cannot start before first possible sprint (external dependency)"
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
+// one task can be done only in one team
+
 // task lead time
 
 // Soft constraints
 
 // sprint utilization
 
-// costs of delay
+rule "Minimize costs of delay"
+    when
+        Task(lastSprint != null, project.due != null, project.costsOfDelay != null,
+            project.due.compareTo(lastSprint.getName()) < 0, $costs : project.costsOfDelay)
+    then
+        scoreHolder.addSoftConstraintMatch(kcontext, - $costs);
+end

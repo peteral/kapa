@@ -77,7 +77,7 @@ end
 
 // Soft constraints
 
-// sprint utilization
+// preffer high sprint utilization for earlier sprints
 
 // TODO costs currently scaling with number of tasks and not time due
 rule "Minimize costs of delay"

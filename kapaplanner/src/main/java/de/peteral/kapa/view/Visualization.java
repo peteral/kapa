@@ -51,6 +51,13 @@ public class Visualization {
             result.append("\n").append(team.getLabel());
             sprints.forEach((sprint, tasks) -> {
                 result.append("\n\t").append(sprint.getLabel());
+
+                result.append(
+                    tasks.entrySet().stream().map(entry ->
+                        entry.getValue().stream().filter(subTask -> subTask.getSprint() == sprint)
+                                .collect(Collectors.summarizingLong(SubTask::getWork)).getSum())
+                            .collect(Collectors.summarizingLong(Long::longValue)).getSum());
+
                 tasks.forEach((task, subTasks) ->
                     result.append("\n\t\t").append(task.getLabel()).append("/").append(
                             subTasks.stream().collect(Collectors.summarizingLong(SubTask::getWork)).getSum()

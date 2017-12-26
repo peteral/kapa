@@ -2,18 +2,18 @@ package de.peteral.kapa.domain;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import de.peteral.kapa.solver.FirstSprintListener;
 import de.peteral.kapa.solver.LastSprintListener;
 import de.peteral.kapa.solver.TaskMaxVelocityListener;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
-import org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty;
+import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 @XStreamAlias("Task")
@@ -26,9 +26,9 @@ public class Task extends AbstractDomainObject {
 
     private List<SubTask> subtasks;
 
-    @XStreamAlias("PreviousTask")
-    @ProblemFactProperty
-    private Task previousTask;
+    @XStreamImplicit(itemFieldName = "PreviousTask")
+    @ProblemFactCollectionProperty
+    private List<Task> previousTasks;
 
     private Project project;
 
@@ -79,15 +79,19 @@ public class Task extends AbstractDomainObject {
     @Override
     public String toString() {
         return String.format("Task-%d (%s) (B: %s) - %d",
-                getId(), getSkill(), (getPreviousTask() == null) ? "n.A." : getPreviousTask().getId(), getWork());
+                getId(), getSkill(),
+                (getPreviousTasks() == null || getPreviousTasks().isEmpty()) ? "n.A." :
+                        getPreviousTasks().stream().map(task -> "" + task.getId())
+                                .collect(Collectors.joining(", ")),
+                getWork());
     }
 
-    public Task getPreviousTask() {
-        return previousTask;
+    public List<Task> getPreviousTasks() {
+        return previousTasks;
     }
 
-    public void setPreviousTask(Task previousTask) {
-        this.previousTask = previousTask;
+    public void setPreviousTasks(List<Task> previousTasks) {
+        this.previousTasks = previousTasks;
     }
 
     public Project getProject() {

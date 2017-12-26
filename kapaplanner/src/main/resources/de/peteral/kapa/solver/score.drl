@@ -49,8 +49,9 @@ end
 // FIXME relying on ascending order in sprint names in configuration data here
 rule "Task dependency must not be violated"
     when
-        Task(firstSprint != null, previousTask != null, previousTask.lastSprint != null,
-            firstSprint.name.compareTo(previousTask.lastSprint.name) <= 0)
+        $task: Task()
+        Task(firstSprint != null, previousTasks contains $task, $task.lastSprint != null,
+            firstSprint.name.compareTo($task.lastSprint.name) <= 0)
     then
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end

@@ -18,7 +18,7 @@
         </Task>
         <Task id="7" skill="CUSTOMIZING" work="25">
             <PreviousTask reference="../../Task[3]"/>
-            <!--<PreviousTask reference="../../Task[4]"/>-->
+            <PreviousTask reference="../../Task[4]"/>
         </Task>
     </Project>
 </Projects>

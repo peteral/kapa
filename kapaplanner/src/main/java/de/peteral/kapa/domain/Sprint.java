@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @XStreamAlias("Sprint")
-@PlanningEntity
 public class Sprint extends AbstractDomainObject {
 
     @XStreamAsAttribute
@@ -19,10 +18,6 @@ public class Sprint extends AbstractDomainObject {
 
     @XStreamAsAttribute
     private String name;
-
-    // TODO this shadow variable is currently not being updated
-    @InverseRelationShadowVariable(sourceVariableName = "sprint")
-    private List<SubTask> subTasks;
 
     private Team team;
 
@@ -33,15 +28,7 @@ public class Sprint extends AbstractDomainObject {
     @Override
     public String toString() {
         return new StringBuilder()
-                .append(String.format("Sprint-%1d (%2s - %3s)", getId(), getTeam().getId(), getName()))
-                .toString();
-    }
-
-    public String getFullString() {
-        List<Task> tasks = subTasks.stream().map(subtask -> subtask.getTask()).distinct().collect(Collectors.toList());
-        return new StringBuilder("\n")
-                .append(String.format("Sprint-%1d (%2s - %3d): ", getId(), getName(), getVelocity()))
-                .append(tasks)
+                .append(String.format("Sprint-%1d (%2s - %3s = %4d)", getId(), getTeam().getId(), getName(), getVelocity()))
                 .toString();
     }
 
@@ -69,11 +56,4 @@ public class Sprint extends AbstractDomainObject {
         this.team = team;
     }
 
-    public List<SubTask> getSubTasks() {
-        return subTasks;
-    }
-
-    public void setSubTasks(List<SubTask> subTasks) {
-        this.subTasks = subTasks;
-    }
 }

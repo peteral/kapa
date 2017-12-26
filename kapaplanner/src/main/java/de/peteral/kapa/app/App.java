@@ -1,6 +1,7 @@
 package de.peteral.kapa.app;
 
 import de.peteral.kapa.domain.Schedule;
+import de.peteral.kapa.view.Visualization;
 import de.peteral.kapa.xstream.Loader;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
@@ -22,6 +23,6 @@ public class App {
 
         Schedule solvedSchedule = solver.solve(unsolvedSchedule);
 
-        LOGGER.info("Solved schedule: " + solvedSchedule);
+        LOGGER.info("Solved schedule: " + new Visualization(solvedSchedule));
     }
 }

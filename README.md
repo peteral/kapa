@@ -61,7 +61,8 @@ Soft constraint pressure should lead to sub tasks being finished in the same spr
 * **f: work** - amount of work needed in person-days
 * **s: delayCost** - current cost of delay
 * **f: project** - project this task belongs to
-* **f: maxVelocity**
+* **f: maxVelocity** - maximum velocity of this task per sprint (external waits, only 1 person in team can work on 
+this task, etc.)
 
 ### Subtask
 
@@ -87,15 +88,14 @@ Soft constraint pressure should lead to sub tasks being finished in the same spr
 
 ### Time Domain - Sprint
 
-I have decided to make following assumptions in order to get the time-domain plannable:
+I have decided to make following assumptions for simplicity:
 
 * we plan in sprints
 * sprints are done in sequence
-* when parallel work in a sprint is necessary because sprints can only be handled by one resource, 
-then we will have to create a sprint per resource
 * all teams have the same duration of sprints 
+* the trick to handle task larger than a sprint and max task velocity per sprint is not planning the tasks
+directly but split them into smaller chunks (sub-tasks) and plan them.
 
-* **s: sprints** sprints starting in this sprint
 * **f: sprint** sprint to whose backlog this sprint belongs
 * **f: velocity** the sprint's velocity in this sprint
 * **f: name** sprints with same name are the same sprints (same column on time axis)

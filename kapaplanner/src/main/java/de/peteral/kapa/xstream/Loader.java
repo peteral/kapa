@@ -27,7 +27,6 @@ public class Loader {
                 team -> team.getSprints().forEach(
                         sprint -> {
                             sprint.setTeam(team);
-                            sprint.setSubTasks(new ArrayList<>());
                         })
         );
 

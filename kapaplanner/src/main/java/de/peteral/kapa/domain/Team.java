@@ -37,7 +37,6 @@ public class Team extends AbstractDomainObject {
 
         return new StringBuilder("\n")
                 .append(String.format("Team-%1d (%2s): ", getId(), getSkills()))
-                .append(getSprints().stream().map(sprint -> sprint.getFullString()).collect(Collectors.joining(", ")))
                 .toString();
     }
 

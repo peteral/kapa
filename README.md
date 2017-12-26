@@ -56,13 +56,15 @@ Soft constraint pressure should lead to sub tasks being finished in the same spr
 * **f: Skill** - sprint skill required for this task
 * **f: blockedBy** - list of projects which must be finished before this task can be started
 * **f: firstPossibleSprint** - task cannot be started before this sprint (external dependency)
-* **f: leadTime** - lead time needed before this task can be started after all blockers have been finished
 * **f: subTasks** - sub tasks for planning
 * **f: work** - amount of work needed in person-days
 * **s: delayCost** - current cost of delay for this task (project.costsOfDelay * sprintsDue)
 * **f: project** - project this task belongs to
 * **f: maxVelocity** - maximum velocity of this task per sprint (external waits, only 1 person in team can work on 
 this task, etc.)
+
+* **!?** task lead time removed, the use case can always be solved by introducing an additional task as 
+predecessor.
 
 ### Subtask
 

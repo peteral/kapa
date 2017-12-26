@@ -60,5 +60,4 @@ public class Sprint extends AbstractDomainObject {
     public void setTeam(Team team) {
         this.team = team;
     }
-
 }

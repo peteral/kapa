@@ -73,11 +73,7 @@ rule "One task can only be done by one team"
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-// task lead time
-
 // Soft constraints
-
-// preffer high sprint utilization for earlier sprints
 
 // TODO costs currently scaling with number of tasks and not time due
 rule "Minimize costs of delay"
@@ -87,3 +83,5 @@ rule "Minimize costs of delay"
     then
         scoreHolder.addSoftConstraintMatch(kcontext, - $costs);
 end
+
+// proper sprint utilitation seems to work without any rules

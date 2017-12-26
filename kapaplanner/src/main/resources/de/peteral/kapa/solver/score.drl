@@ -65,6 +65,13 @@ rule "Task cannot start before first possible sprint (external dependency)"
 end
 
 // one task can be done only in one team
+rule "One task can only be done by one team"
+    when
+        SubTask(sprint != null, $task : task, $team: sprint.team)
+        SubTask(sprint != null, task == $task, sprint.team != $team)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
 
 // task lead time
 
@@ -72,6 +79,7 @@ end
 
 // sprint utilization
 
+// TODO costs currently scaling with number of tasks and not time due
 rule "Minimize costs of delay"
     when
         Task(lastSprint != null, project.due != null, project.costsOfDelay != null,

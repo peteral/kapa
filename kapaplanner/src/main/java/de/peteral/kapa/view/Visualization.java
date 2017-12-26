@@ -35,7 +35,7 @@ public class Visualization {
         projects = new HashMap<>();
         schedule.getTasks().forEach(task -> {
             Sprint lastProjectSprint = projects.get(task.getProject());
-            if (lastProjectSprint == null || lastProjectSprint.compareTo(task.getLastSprint()) < 0)
+            if (lastProjectSprint == null || lastProjectSprint.getName().compareTo(task.getLastSprint().getName()) < 0)
                 projects.put(task.getProject(), task.getLastSprint());
         });
     }
@@ -64,7 +64,7 @@ public class Visualization {
 
         projects.forEach(((project, sprint) ->
             result.append(
-                String.format("\n%d: due (%s), finished(%s)", project.getId(), project.getDue(), sprint.getName()))
+                String.format("\n%d: due (%s), finished (%s)", project.getId(), project.getDue(), sprint.getName()))
         ));
 
         return result.toString();

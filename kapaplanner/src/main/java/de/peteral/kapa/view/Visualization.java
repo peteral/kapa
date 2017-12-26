@@ -66,7 +66,7 @@ public class Visualization {
             });
         });
 
-        result.append("\nProjects:\n")
+        result.append("\n\nProjects:\n")
             .append("-----------------------------------");
 
         projects.forEach(((project, sprint) ->
@@ -75,5 +75,8 @@ public class Visualization {
         ));
 
         return result.toString();
+    }
+
+    public void render(String parameter) {
     }
 }

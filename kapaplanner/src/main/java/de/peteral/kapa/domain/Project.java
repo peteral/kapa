@@ -17,6 +17,8 @@ public class Project extends AbstractDomainObject {
     @XStreamAsAttribute
     private String due;
 
+    // TODO implement probability of project intake
+
     public List<Task> getTasks() {
         return tasks;
     }

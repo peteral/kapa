@@ -3,10 +3,15 @@ package de.peteral.kapa.domain;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import de.peteral.kapa.solver.ProjectLastSprintListener;
+import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
+import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
 import java.util.List;
 
 @XStreamAlias("Project")
+@PlanningEntity
 public class Project extends AbstractDomainObject {
     @XStreamImplicit
     private List<Task> tasks;
@@ -17,7 +22,9 @@ public class Project extends AbstractDomainObject {
     @XStreamAsAttribute
     private String due;
 
-    // TODO implement probability of project intake
+    @CustomShadowVariable(variableListenerClass = ProjectLastSprintListener.class,
+            sources = {@PlanningVariableReference(variableName = "lastSprint", entityClass = Task.class)})
+    private Sprint lastSprint;
 
     public List<Task> getTasks() {
         return tasks;
@@ -41,5 +48,13 @@ public class Project extends AbstractDomainObject {
 
     public void setDue(String due) {
         this.due = due;
+    }
+
+    public Sprint getLastSprint() {
+        return lastSprint;
+    }
+
+    public void setLastSprint(Sprint lastSprint) {
+        this.lastSprint = lastSprint;
     }
 }

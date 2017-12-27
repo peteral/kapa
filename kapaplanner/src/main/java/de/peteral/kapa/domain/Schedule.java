@@ -26,8 +26,12 @@ public class Schedule {
 
     private List<Team> teams;
 
+    @PlanningEntityCollectionProperty
+    private List<Project> projects;
+
     public Schedule(List<Team> teams, List<Project> projects) {
         this.teams = teams;
+        this.projects = projects;
         this.sprints = new ArrayList<>();
         this.subTasks = new ArrayList<>();
         this.tasks = new ArrayList<>();
@@ -77,5 +81,13 @@ public class Schedule {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 }

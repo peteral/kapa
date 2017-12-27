@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 public class FirstSprintListener extends AbstractVariableListener<SubTask> {
     @Override
     protected void updateProperty(ScoreDirector scoreDirector, SubTask source) {
-        // FIXME we are relying on ascending ordering of sprint names in configuration data here - this should be changed
         Optional<Sprint> sprint = source.getTask().getSubtasks().stream()
                 .filter(subTask -> subTask.getSprint() != null)
                 .map(SubTask::getSprint)

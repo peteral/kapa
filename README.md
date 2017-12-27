@@ -74,7 +74,6 @@ Soft constraint pressure should lead to sub tasks being finished in the same spr
 * **f: firstPossibleSprint** - task cannot be started before this sprint (external dependency)
 * **f: subTasks** - sub tasks for planning
 * **f: work** - amount of work needed in person-days
-* **s: delayCost** - current cost of delay for this task (project.costsOfDelay * sprintsDue)
 * **f: project** - project this task belongs to
 * **f: maxVelocity** - maximum velocity of this task per sprint (external waits, only 1 person in team can work on 
 this task, etc.)
@@ -93,18 +92,15 @@ predecessor.
 
 ### Project
 
+Projects are high-level work units that need to be planned. Currently we only handle acquired projects , not the
+sales pipeline.
+
+See Sales pipeline discussion.
+
 * **f: due** - project deadline - all projects must be finished until then
-* **f: probability** - probability of project intake
-    * projects with 30% intake-probability will only block 30% of capacity
-    * **!?** still not persuaded, this is a good idea - let's consider following situation:
-        * we have a commitment for 90 of 100 units of our capacity for the next 12 months
-        * there is a project in the pipeline with 33% probability worth 30 units of capacity, but it must be finished within the next 12 months
-        * our plan will say to go for the project, 33% of 30 units is 10 units
-        * getting the project sounds great
-        * however in reality the moment we get the project we will have a big problem because of an overcommitment
-    * maybe we could add an constraint saying, that no project in the pipeline is allowed to be bigger, than the remaining unplanned capacity 
 * **f: costOfDelay** - cost of delay **!?** we start simply with a number / sprint of delay, but this topic can get complex
 * **f: tasks** - tasks belonging to this project
+* **s: lastSprint** - last sprint containing work on this project
 
 ### Time Domain - Sprint
 
@@ -142,3 +138,26 @@ The Score function is implemented as a [Drools](https://docs.jboss.org/drools/re
 
 Currently the function is embedded in the software under 
 [src/main/resources/de/peteral/kapa/solver/score.drl](https://github.com/peteral/kapa/blob/master/kapaplanner/src/main/resources/de/peteral/kapa/solver/score.drl)
+
+## Sales Pipeline Discussion
+
+The sales pipeline contains projects that are not yet acquired, but eventually will be.
+
+Following questions need to be answered during the sales phase:
+* Is it possible to finish the project on time given the current commitment?
+* What effect will the project acquisition have on our backlogs? How will it affect projects without deadline commitment?
+* There are more than one projects in the pipeline, how will the effects be if we acquired some of them?
+
+It is clear, that we should not go for a project which is not executable given our existing commitment.
+But what if we have two projects with 50% chance of acquisition. Each one of the individually we could handle,
+but both together would mean a disaster.  
+
+I believe, the best approach would be the following:
+* we handle the sales pipeline projects the same way as normal projects
+* we generate multiple plans showing different scenarios and have a person decide:
+    * acquired projects only - "worst case"
+    * all acquired projects + sales pipeline - "best case"
+    * acquired projects + selected projects from the sales pipeline
+    
+This can be handled outside of the planning software during input data generation and will therefore not be handled
+here.

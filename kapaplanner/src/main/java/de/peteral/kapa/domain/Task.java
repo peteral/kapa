@@ -28,10 +28,8 @@ public class Task extends AbstractDomainObject {
     private List<SubTask> subtasks;
 
     @XStreamImplicit(itemFieldName = "PreviousTask")
-    @ProblemFactCollectionProperty
     private List<Task> previousTasks;
 
-    @ProblemFactProperty
     @XStreamAsAttribute
     private String firstPossibleSprint;
 

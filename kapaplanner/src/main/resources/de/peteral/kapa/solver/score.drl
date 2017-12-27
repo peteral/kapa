@@ -7,7 +7,10 @@ import de.peteral.kapa.domain.Task
 import de.peteral.kapa.domain.SubTask
 import de.peteral.kapa.domain.Sprint
 import de.peteral.kapa.domain.Team
+import de.peteral.kapa.domain.Project
 import java.util.stream.Collectors
+
+import function de.peteral.kapa.solver.SolverUtils.getDelayCosts
 
 global HardSoftScoreHolder scoreHolder;
 
@@ -46,7 +49,6 @@ rule "Max task velocity per sprint must not be exceeded"
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-// FIXME relying on ascending order in sprint names in configuration data here
 rule "Task dependency must not be violated"
     when
         $task: Task()
@@ -56,7 +58,6 @@ rule "Task dependency must not be violated"
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-// FIXME relying on ascending order in sprint names in configuration data here
 rule "Task cannot start before first possible sprint (external dependency)"
     when
         Task(firstPossibleSprint != null, firstSprint != null, firstSprint.name.compareTo(firstPossibleSprint) < 0)
@@ -75,13 +76,12 @@ end
 
 // Soft constraints
 
-// TODO costs currently scaling with number of tasks and not time due
 rule "Minimize costs of delay"
     when
-        Task(lastSprint != null, project.due != null, project.costsOfDelay != null,
-            project.due.compareTo(lastSprint.getName()) < 0, $costs : project.costsOfDelay)
+        Project(costsOfDelay > 0 && due != null && lastSprint != null,
+            $due : due, $lastSprint : lastSprint.name, $costs : costsOfDelay)
     then
-        scoreHolder.addSoftConstraintMatch(kcontext, - $costs);
+        scoreHolder.addSoftConstraintMatch(kcontext, - getDelayCosts($due, $lastSprint, $costs));
 end
 
 // proper sprint utilitation seems to work without any rules

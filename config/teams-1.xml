@@ -17,7 +17,7 @@
         <Skill>PLATFORM_DEVELOPMENT</Skill>
         <Sprint id="101" name="7.20" velocity="45"/>
         <Sprint id="102" name="7.21" velocity="48"/>
-        <Sprint id="103" name="7.22" velocity="43"/>
+        <Sprint id="103" name="7.22" velocity="50"/>
         <Sprint id="104" name="7.23" velocity="40"/>
         <Sprint id="105" name="7.24" velocity="52"/>
         <Sprint id="106" name="7.25" velocity="50"/>
@@ -31,7 +31,7 @@
         <Skill>PLATFORM_DEVELOPMENT</Skill>
         <Sprint id="201" name="7.20" velocity="35"/>
         <Sprint id="202" name="7.21" velocity="36"/>
-        <Sprint id="203" name="7.22" velocity="32"/>
+        <Sprint id="203" name="7.22" velocity="35"/>
         <Sprint id="204" name="7.23" velocity="39"/>
         <Sprint id="205" name="7.24" velocity="42"/>
         <Sprint id="206" name="7.25" velocity="20"/>

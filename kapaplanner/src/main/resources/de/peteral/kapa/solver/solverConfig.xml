@@ -23,7 +23,7 @@
 
     <termination>
         <secondsSpentLimit>40</secondsSpentLimit>
-        <!--<bestScoreLimit>0hard/0soft</bestScoreLimit>-->
+        <bestScoreLimit>0hard/0soft</bestScoreLimit>
     </termination>
 
 </solver>

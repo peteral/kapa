@@ -1,6 +1,7 @@
 package de.peteral.kapa.app;
 
 import de.peteral.kapa.domain.Schedule;
+import de.peteral.kapa.solver.SolverUtils;
 import de.peteral.kapa.view.Visualization;
 import de.peteral.kapa.xstream.Loader;
 import org.optaplanner.core.api.solver.Solver;
@@ -31,6 +32,14 @@ public class App {
         Schedule unsolvedSchedule = Loader.load(
                 getParameter(params, 0),
                 getParameter(params, 1));
+
+        SolverUtils.injectSprints(
+                unsolvedSchedule.getSprints().stream()
+                        .map(sprint -> sprint.getName())
+                        .distinct()
+                        .sorted()
+                        .collect(Collectors.toList())
+        );
 
         LOGGER.info("Unsolved schedule: " + unsolvedSchedule);
 

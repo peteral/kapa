@@ -158,7 +158,7 @@ public class Renderer {
         return template.replaceAll("\\$\\{team-labels\\}",
                 teams.stream()
                         .map(team -> String.format("        <text x=\"%d\" y=\"30\">%s</text>",
-                                55 + (i.getAndIncrement()) * 100, team.toString()))
+                                55 + (i.getAndIncrement()) * 100, team.getName()))
                         .collect(Collectors.joining("\n")));
     }
 

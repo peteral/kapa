@@ -1,5 +1,5 @@
 <Teams>
-    <Team id="1">
+    <Team id="1" name="RE">
         <Skill>ANALYSIS</Skill>
         <Sprint id="1" name="7.20" velocity="24"/>
         <Sprint id="2" name="7.21" velocity="25"/>
@@ -13,7 +13,7 @@
         <Sprint id="10" name="7.29" velocity="27"/>
         <Sprint id="11" name="7.30" velocity="27"/>
     </Team>
-    <Team id="2">
+    <Team id="2" name="Dev 1">
         <Skill>PLATFORM_DEVELOPMENT</Skill>
         <Sprint id="101" name="7.20" velocity="45"/>
         <Sprint id="102" name="7.21" velocity="48"/>
@@ -27,7 +27,7 @@
         <Sprint id="110" name="7.29" velocity="52"/>
         <Sprint id="111" name="7.30" velocity="52"/>
     </Team>
-    <Team id="3">
+    <Team id="3" name="Dev 2">
         <Skill>PLATFORM_DEVELOPMENT</Skill>
         <Sprint id="201" name="7.20" velocity="35"/>
         <Sprint id="202" name="7.21" velocity="36"/>
@@ -41,7 +41,7 @@
         <Sprint id="210" name="7.29" velocity="27"/>
         <Sprint id="211" name="7.30" velocity="27"/>
     </Team>
-    <Team id="4">
+    <Team id="4" name="Dev Ext">
         <Skill>PROJECT_DEVELOPMENT</Skill>
         <Sprint id="301" name="7.20" velocity="40"/>
         <Sprint id="302" name="7.21" velocity="40"/>
@@ -55,7 +55,7 @@
         <Sprint id="310" name="7.29" velocity="45"/>
         <Sprint id="311" name="7.30" velocity="45"/>
     </Team>
-    <Team id="5">
+    <Team id="5" name="Ops">
         <Skill>CUSTOMIZING</Skill>
         <Sprint id="401" name="7.20" velocity="20"/>
         <Sprint id="402" name="7.21" velocity="20"/>

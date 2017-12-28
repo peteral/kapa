@@ -1,5 +1,7 @@
 # kapa
 
+This software plans work in an organization working in sprints:
+
 <img src="docs/visualization.png" width="640" height="640">
 
 ## System overview 
@@ -7,6 +9,10 @@
 This software is based on [OptaPlanner](https://www.optaplanner.org/)
 
 <img src="docs/flow-chart.svg" width="640" height="400">
+
+## Sample output
+
+<img src="docs/output.example.svg">
 
 ## Planning constraints
 
@@ -118,10 +124,6 @@ directly but split them into smaller chunks (sub-tasks) and plan them.
 
 ## Configuration files
 
-This file defines the projects, their individual tasks, required skills and dependencies.
-
-For example see [config/projects-1.xml](https://github.com/peteral/kapa/blob/master/config/projects-1.xml)
-
 ### Teams
 
 This file defines teams, their skills and sprints to be planned.
@@ -131,6 +133,10 @@ The sprint names must be ascending.
 For example see [config/teams-1.xml](https://github.com/peteral/kapa/blob/master/config/teams-1.xml)
 
 ### Projects
+
+This file defines the projects, their individual tasks, required skills and dependencies.
+
+For example see [config/projects-1.xml](https://github.com/peteral/kapa/blob/master/config/projects-1.xml)
 
 ## Score function
 

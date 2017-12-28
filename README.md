@@ -8,7 +8,7 @@ This software is based on [OptaPlanner](https://www.optaplanner.org/)
 
 ## Running the application
 
-The expects 3 parameters: `app teams.xml projects.xml output.svg`
+The app expects 3 parameters: `app teams.xml projects.xml output.svg`
 
 You can find sample configuration files in the `config` folder.
 

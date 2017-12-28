@@ -22,6 +22,9 @@ public class Project extends AbstractDomainObject {
     @XStreamAsAttribute
     private String due;
 
+    @XStreamAsAttribute
+    private String color;
+
     @CustomShadowVariable(variableListenerClass = ProjectLastSprintListener.class,
             sources = {@PlanningVariableReference(variableName = "lastSprint", entityClass = Task.class)})
     private Sprint lastSprint;
@@ -56,5 +59,18 @@ public class Project extends AbstractDomainObject {
 
     public void setLastSprint(Sprint lastSprint) {
         this.lastSprint = lastSprint;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Project-%d", getId());
     }
 }

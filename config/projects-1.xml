@@ -1,5 +1,5 @@
 <Projects>
-    <Project id="1" costsOfDelay="2" due="7.22">
+    <Project id="1" costsOfDelay="2" due="7.22" color="#32ee26">
         <Task id="1" skill="ANALYSIS" work="10" maxVelocity="5"/>
         <Task id="2" skill="PLATFORM_DEVELOPMENT" work="50">
             <PreviousTask reference="../../Task[1]"/>
@@ -8,7 +8,7 @@
             <PreviousTask reference="../../Task[1]"/>
         </Task>
     </Project>
-    <Project id="2" costsOfDelay="1">
+    <Project id="2" costsOfDelay="1" color="#2ae2f2" due="7.28">
         <Task id="3" skill="ANALYSIS" work="15" maxVelocity="5"/>
         <Task id="4" skill="PLATFORM_DEVELOPMENT" work="70">
             <PreviousTask reference="../../Task[1]"/>

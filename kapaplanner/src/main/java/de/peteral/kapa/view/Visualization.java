@@ -72,7 +72,4 @@ public class Visualization {
 
         return result.toString();
     }
-
-    public void render(String parameter) {
-    }
 }

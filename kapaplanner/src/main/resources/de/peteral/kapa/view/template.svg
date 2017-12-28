@@ -1,0 +1,50 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+     width="${width}px" height="${height}px">
+
+    <defs>
+        <style type="text/css">
+            <![CDATA[
+                .sprint {
+                    fill:           none;
+                    stroke:         #5d5d5d;
+                    stroke-width:   2;
+                }
+                .team-labels {
+                    font-size:      16px;
+                    font-weight:    bold;
+                }
+                .sprint-labels {
+                    font-size:      16px;
+                    font-weight:    bold;
+                }
+                .late {
+                    fill:           #da0d0d;
+                    stroke-width:   0;
+                }
+                .sprint-utilization {
+                    stroke:         #5d5d5d;
+                    fill:           #5d5d5d;
+                    stroke-width:   1;
+                    font-size:      14px;
+                }
+
+${project-styles}
+            ]]>
+        </style>
+    </defs>
+
+${projects}
+
+    <g class="team-labels">
+${team-labels}
+    </g>
+
+    <g class="sprint-labels">
+${sprint-labels}
+    </g>
+
+    <g class="sprint">
+${sprints}
+    </g>
+
+</svg>

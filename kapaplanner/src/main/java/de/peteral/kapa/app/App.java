@@ -2,6 +2,7 @@ package de.peteral.kapa.app;
 
 import de.peteral.kapa.domain.Schedule;
 import de.peteral.kapa.solver.SolverUtils;
+import de.peteral.kapa.view.Renderer;
 import de.peteral.kapa.view.Visualization;
 import de.peteral.kapa.xstream.Loader;
 import org.optaplanner.core.api.solver.Solver;
@@ -10,6 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.annotation.XmlType;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -19,10 +25,10 @@ public class App {
     private static final String[] DEFAULT_PARAMETERS = {
             "config/teams-1.xml",
             "config/projects-1.xml",
-            "target/output.svg"
+            "kapaplanner/target/output.svg"
     };
 
-    public static void main(String... params) {
+    public static void main(String... params) throws IOException, URISyntaxException {
         if (params.length != DEFAULT_PARAMETERS.length)
             printUsage();
 
@@ -48,7 +54,11 @@ public class App {
         Visualization visualization = new Visualization(solvedSchedule);
         LOGGER.info("Solved schedule: " + visualization);
 
-        visualization.render(getParameter(params, 2));
+        Renderer renderer = new Renderer(solvedSchedule);
+        String svg = renderer.render();
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(getParameter(params, 2)))) {
+            writer.write(svg);
+        }
     }
 
     private static void printUsage() {

@@ -85,3 +85,5 @@ rule "Minimize costs of delay"
 end
 
 // proper sprint utilitation seems to work without any rules
+
+// do we need fair workload balance constraint?

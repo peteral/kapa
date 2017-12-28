@@ -16,6 +16,8 @@ Alternatively you can run the application from the same folder as the location o
 Then the app will automatically use the sample configuration files and the output SVG will be 
 generated in `kapaplanner/target/output.svg`.
 
+Sample output:
+
 <img src="docs/visualization.png">
 
 ## Planning constraints

@@ -2,17 +2,21 @@
 
 This software plans work in an organization working in sprints:
 
-<img src="docs/visualization.png" width="640" height="640">
-
-## System overview 
-
 This software is based on [OptaPlanner](https://www.optaplanner.org/)
 
 <img src="docs/flow-chart.svg" width="640" height="400">
 
-## Sample output
+## Running the application
 
-See [docs/output-example.svg](https://github.com/peteral/kapa/blob/master/docs/output-example.svg)
+The expects 3 parameters: `app teams.xml projects.xml output.svg`
+
+You can find sample configuration files in the `config` folder.
+
+Alternatively you can run the application from the same folder as the location of this readme file.
+Then the app will automatically use the sample configuration files and the output SVG will be 
+generated in `kapaplanner/target/output.svg`.
+
+<img src="docs/visualization.png">
 
 ## Planning constraints
 

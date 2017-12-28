@@ -20,7 +20,12 @@ public class Renderer {
     private final List<SprintEntry> sprints;
     private final Schedule schedule;
 
-    private static final String LATE_PROJECT_COLOR = "#da0d0d";
+    private static final int SPRINT_HEIGHT = 100;
+    private static final int SPRINT_WIDTH = 100;
+    private static final int LATE_MARKER_HEIGHT = 10;
+    private static final int BORDER_SIZE = 50;
+    private static final int LEGEND_WIDTH = 200;
+    private static final int LEGEND_HEIGHT = 80;
 
     public Renderer(Schedule schedule) {
         this.schedule = schedule;
@@ -66,8 +71,37 @@ public class Renderer {
         result = addProjectStyles(result);
         result = addProjects(result);
         result = addSprints(result);
+        result = addLegend(result);
 
         return result;
+    }
+
+    private String addLegend(String template) {
+        final AtomicInteger i = new AtomicInteger();
+        return template
+                .replaceAll("\\$\\{legend\\}",
+                        schedule.getProjects().stream()
+                        .map(project -> String.format("    <g transform=\"translate(%d, %d)\">\n" +
+                                "        <rect width=\"%d\" height=\"%d\" rx=\"5\" ry=\"5\" class=\"tooltip\"/>\n" +
+                                "        <text>\n" +
+                                "            <tspan x=\"10\" y=\"20\" style=\"font-weight:bold\">%s</tspan>\n" +
+                                "            <tspan x=\"20\" y=\"40\">Due: %s</tspan>\n" +
+                                "            <tspan x=\"20\" y=\"60\" %s>Finished: %s</tspan>\n" +
+                                "        </text>\n" +
+                                "        <rect width=\"20\" height=\"60\" y=\"10\" x=\"170\" class=\"%s\"/>\n" +
+                                "    </g>\n",
+                                (int)(1.5 * BORDER_SIZE + teams.size() * SPRINT_WIDTH),
+                                (int)(0.5 * BORDER_SIZE + LEGEND_HEIGHT * i.getAndIncrement()),
+                                LEGEND_WIDTH,
+                                LEGEND_HEIGHT - 4,
+                                project,
+                                project.getDue(),
+                                (project.getDue() != null && project.getDue().compareTo(project.getLastSprint().getName()) < 0) ? " class=\"late\"" : "",
+                                project.getLastSprint().getName(),
+                                project
+                        ))
+                        .collect(Collectors.joining("\n"))
+                );
     }
 
     private String addProjectStyles(String template) {
@@ -100,16 +134,16 @@ public class Renderer {
 
                                     if (totalWork > 0) {
                                         int width = (int)(100.0 * totalWork / sprint.velocity) - 2;
-                                        int x = 51 + sprint.teamIndex * 100 + sprint.getCurrentOffset();
-                                        int y = 51 + sprint.sprintIndex * 100;
+                                        int x = BORDER_SIZE + 1 + sprint.teamIndex * SPRINT_WIDTH + sprint.getCurrentOffset();
+                                        int y = BORDER_SIZE + 1 + sprint.sprintIndex * SPRINT_HEIGHT;
 
-                                        result.append(String.format("        <rect height=\"98\" width=\"%d\" x=\"%d\" y=\"%d\"/>\n",
-                                                width, x, y));
+                                        result.append(String.format("        <rect height=\"%d\" width=\"%d\" x=\"%d\" y=\"%d\"/>\n",
+                                                SPRINT_HEIGHT - 2, width, x, y));
                                         sprint.addTask(width);
 
                                         if (project.getDue() != null && project.getDue().compareTo(project.getLastSprint().getName()) < 0)
-                                            result.append(String.format("        <rect class=\"late\" height=\"10\" width=\"%d\" x=\"%d\" y=\"%d\"/>\n",
-                                                    width, x, y + 90));
+                                            result.append(String.format("        <rect class=\"late\" height=\"%d\" width=\"%d\" x=\"%d\" y=\"%d\"/>\n",
+                                                    LATE_MARKER_HEIGHT, width, x, y + SPRINT_HEIGHT - LATE_MARKER_HEIGHT));
 
                                     }
                                 });
@@ -126,11 +160,13 @@ public class Renderer {
                 .replaceAll("\\$\\{sprints\\}",
                         sprints.stream()
                                 .map(sprint -> String.format("        <g transform=\"translate(%d, %d)\">\n" +
-                                                "            <rect width=\"100\" height=\"100\"/>\n" +
+                                                "            <rect width=\"%d\" height=\"%d\"/>\n" +
                                                 "            <text class=\"sprint-utilization\" x=\"5\" y=\"15\">%d / %d</text>\n" +
                                                 "        </g>",
-                                        50 + sprint.teamIndex * 100,
-                                        50 + sprint.sprintIndex * 100,
+                                        BORDER_SIZE + sprint.teamIndex * SPRINT_WIDTH,
+                                        BORDER_SIZE + sprint.sprintIndex * SPRINT_HEIGHT,
+                                        SPRINT_WIDTH,
+                                        SPRINT_HEIGHT,
                                         sprint.utilization,
                                         sprint.velocity))
                                 .collect(Collectors.joining("\n")));
@@ -141,7 +177,7 @@ public class Renderer {
         return template.replaceAll("\\$\\{sprint-labels\\}",
                 sprintLabels.stream()
                         .map(s -> String.format("        <text x=\"10\" y=\"%d\">%s</text>",
-                                110 + (i.getAndIncrement()) * 100,
+                                BORDER_SIZE + SPRINT_HEIGHT / 2 + 10 + (i.getAndIncrement()) * SPRINT_HEIGHT,
                                 s))
                         .collect(Collectors.joining("\n")));
 
@@ -149,8 +185,8 @@ public class Renderer {
 
     private String addSize(String template) {
         return template
-            .replaceAll("\\$\\{width\\}", Integer.toString(teams.size() * 100 + 100))
-            .replaceAll("\\$\\{height\\}", Integer.toString(sprintLabels.size() * 100 + 100));
+            .replaceAll("\\$\\{width\\}", Integer.toString(teams.size() * SPRINT_WIDTH + 2 * BORDER_SIZE + LEGEND_WIDTH))
+            .replaceAll("\\$\\{height\\}", Integer.toString(sprintLabels.size() * SPRINT_HEIGHT + 2 * BORDER_SIZE));
     }
 
     private String addTeamLabels(String template) {
@@ -158,7 +194,7 @@ public class Renderer {
         return template.replaceAll("\\$\\{team-labels\\}",
                 teams.stream()
                         .map(team -> String.format("        <text x=\"%d\" y=\"30\">%s</text>",
-                                55 + (i.getAndIncrement()) * 100, team.getName()))
+                                BORDER_SIZE + 5 + (i.getAndIncrement()) * SPRINT_WIDTH, team.getName()))
                         .collect(Collectors.joining("\n")));
     }
 

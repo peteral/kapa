@@ -24,8 +24,14 @@
                 .sprint-utilization {
                     stroke:         #5d5d5d;
                     fill:           #5d5d5d;
-                    stroke-width:   1;
+                    stroke-width:   0;
+                    font-weight:    bold;
                     font-size:      14px;
+                }
+                .tooltip {
+                    fill:           #d5d5d5;
+                    stroke:         #5c5c5c;
+                    stroke-width:   2;
                 }
 
 ${project-styles}
@@ -46,5 +52,7 @@ ${sprint-labels}
     <g class="sprint">
 ${sprints}
     </g>
+
+${legend}
 
 </svg>

@@ -1,5 +1,5 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-     width="600px" height="1200px">
+     width="800px" height="1200px">
 
     <defs>
         <style type="text/css">
@@ -24,8 +24,14 @@
                 .sprint-utilization {
                     stroke:         #5d5d5d;
                     fill:           #5d5d5d;
-                    stroke-width:   1;
+                    stroke-width:   0;
+                    font-weight:    bold;
                     font-size:      14px;
+                }
+                .tooltip {
+                    fill:           #d5d5d5;
+                    stroke:         #5c5c5c;
+                    stroke-width:   2;
                 }
 
                 .Project-1 {
@@ -313,5 +319,26 @@
             <text class="sprint-utilization" x="5" y="15">0 / 25</text>
         </g>
     </g>
+
+    <g transform="translate(575, 25)">
+        <rect width="200" height="76" rx="5" ry="5" class="tooltip"/>
+        <text>
+            <tspan x="10" y="20" style="font-weight:bold">Project-1</tspan>
+            <tspan x="20" y="40">Due: 7.22</tspan>
+            <tspan x="20" y="60" >Finished: 7.22</tspan>
+        </text>
+        <rect width="20" height="60" y="10" x="170" class="Project-1"/>
+    </g>
+
+    <g transform="translate(575, 105)">
+        <rect width="200" height="76" rx="5" ry="5" class="tooltip"/>
+        <text>
+            <tspan x="10" y="20" style="font-weight:bold">Project-2</tspan>
+            <tspan x="20" y="40">Due: 7.28</tspan>
+            <tspan x="20" y="60"  class="late">Finished: 7.29</tspan>
+        </text>
+        <rect width="20" height="60" y="10" x="170" class="Project-2"/>
+    </g>
+
 
 </svg>

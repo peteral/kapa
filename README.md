@@ -12,7 +12,7 @@ This software is based on [OptaPlanner](https://www.optaplanner.org/)
 
 ## Sample output
 
-<img src="docs/output.example.svg">
+<img src="docs/output-example.svg">
 
 ## Planning constraints
 

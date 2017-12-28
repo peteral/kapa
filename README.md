@@ -12,7 +12,7 @@ This software is based on [OptaPlanner](https://www.optaplanner.org/)
 
 ## Sample output
 
-<img src="docs/output-example.svg">
+See [docs/output-example.svg](https://github.com/peteral/kapa/blob/master/docs/output-example.svg)
 
 ## Planning constraints
 

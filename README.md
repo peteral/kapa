@@ -173,3 +173,48 @@ I believe, the best approach would be the following:
     
 This can be handled outside of the planning software during input data generation and will therefore not be handled
 here.
+
+# JIRA integration
+
+## JIRA data model
+
+<img src="docs/jira-integration.png">
+
+* Projects can be defined as epics, following properties are interesting:
+    * **ID** - JIRA ID
+    * **Name** - Name for better output readability
+    * **costsOfDelay** - optional costs of delay per sprint. S,M,L,XL Looks like a good enough scala to me.
+    * **due** - name of the sprint this epic is due (costs of delay will be caused if late)
+    * **color** - it might make sense to configure the color in the epic so the epics in updated plans have always
+    the same color. We might also implement the color to be a function of the id, however the colors might get weird if
+    we do so.
+    * **status** - not all states should be considered for planning
+        * sales pipeline - only on demand
+        * TODO, Backlog, etc. - plan
+        * work in progress - here we have an issue with reducing the work planned by work already done
+        * Closed - ignore 
+* For tasks we should create a new special task type i.e. "KAPA". This task type then represents the 
+    high-level tasks we will be planning. Following properties are of interest:
+    * **ID** - JIRA ID
+    * **Name** - Task name - do we really need this? would need some kind of tooltips to display this info. 
+    * **Skill** - Required team skill - for decision which teams can work on this task
+    * **work** - Planned work
+    * **maxVelocity** - optional max velocity per sprint
+    * **sprints** - sprints this tasks is planned for (!? multiple sprints per task should be possible in JIRA)
+    * **firstSprint** - first possible sprint for this task's execution (external dependency)
+    * **blockedBy** - list of tasks blocking this task, they must have following properties in order to be 
+    considered:
+        * be of type KAPA
+        * belong to an EPIC, which will match the criteria for planning
+        * cycles must not be allowed - we will only consider blockedBy dependency and should check for cycles
+
+## JIRA Export
+
+Takes JIRA query and transforms the returned KAPA Tasks / EPICS into Planner input file.
+    
+## Feedback to JIRA
+
+Tasks / EPICs should be updated according to a plan automatically and used as base for the 
+next planning.
+
+Update sprints of tasks according to a planned schedule.

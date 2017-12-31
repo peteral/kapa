@@ -12,7 +12,8 @@
 
 \section{Problem space}
 
-$$n = n_{team} \cdot n_{sprint} \cdot \sum_{i=0}^{n_{task}}{w_i} $$ where
+The number of possible permutations of sub tasks within the sprints is
+$$n = (n_{team} \cdot n_{sprint}) ^{\sum_{i=0}^{n_{task}}{w_i}} $$ where
 \begin{itemize}
 \item n - number of possible solutions
 \item $n_{team}$ - number of teams
@@ -21,17 +22,18 @@ $$n = n_{team} \cdot n_{sprint} \cdot \sum_{i=0}^{n_{task}}{w_i} $$ where
 \item $w_i$ - work of given task
 \end{itemize}
 
-In our example we will get $n = 5 \cdot 11 \cdot 280 = 15.400$
+In our example we will get $n = (5 \cdot 11) ^{280} = 1.6 \cdot 10^{687}$.
+For comparison - the estimated number of atoms in the known universe is around $10^{80}$
 
 \paragraph{Let's consider a more realistic example:}
 
 \begin{itemize}
-\item 50.000 story points (~40 person years)
+\item 5.000 story points (50 projects 100 SP each)
 \item 16 sprints (a year)
 \item 6 teams
 \end{itemize}
 
-This will result in problem space $n = 6 \cdot 16 \cdot 50000 = 4.8 \cdot 10^6$.
-This is a relatively small number considering the problem space size the planning algorithms normally deal with.
+This will result in problem space $n = (6 \cdot 16) ^{5000} = 2.2 \cdot 10^{9911}$.
+Looks like we are going to have to optimize a bit in order to be able to get some usable solution in reasonable time (smaller than few billion years).
 
 \end{document}

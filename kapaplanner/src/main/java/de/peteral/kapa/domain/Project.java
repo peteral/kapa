@@ -29,6 +29,18 @@ public class Project extends AbstractDomainObject {
             sources = {@PlanningVariableReference(variableName = "lastSprint", entityClass = Task.class)})
     private Sprint lastSprint;
 
+    public Project() {
+
+    }
+
+    public Project(long id, int costsOfDelay, String due, String color, List<Task> tasks) {
+        super(id);
+        this.tasks = tasks;
+        this.costsOfDelay = costsOfDelay;
+        this.due = due;
+        this.color = color;
+    }
+
     public List<Task> getTasks() {
         return tasks;
     }

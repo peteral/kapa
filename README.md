@@ -103,9 +103,16 @@ predecessor.
 
 ### Subtask
 
+The subtask is the only real planning entity in our domain model. 
+
 * **v: sprint** - sprint in which the work on this task starts
 * **f: work** - amount of work needed in person-days
 * **f: task** - parent task
+
+Planning difficulty:
+* tasks of project with fixed schedule are more difficult to plan that tasks without
+* tasks with earlier project schedule are more difficult to plan than tasks with later project schedule
+* tasks with higher costs of delay are more difficult to plan than tasks with lower costs of delay
 
 ### Project
 

@@ -17,6 +17,9 @@
                     font-size:      16px;
                     font-weight:    bold;
                 }
+                .footer {
+                    font-size:      14px;
+                }
                 .late {
                     fill:           #da0d0d;
                     stroke-width:   0;
@@ -55,4 +58,5 @@ ${sprints}
 
 ${legend}
 
+${footer}
 </svg>

@@ -26,6 +26,13 @@ public class Team extends AbstractDomainObject {
 
     }
 
+    public Team(long id, String name, List<String> skills, List<Sprint> sprints) {
+        super(id);
+        this.skills = skills;
+        this.sprints = sprints;
+        this.name = name;
+    }
+
     public List<String> getSkills() {
         return skills;
     }

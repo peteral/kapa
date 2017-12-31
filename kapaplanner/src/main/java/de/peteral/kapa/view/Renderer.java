@@ -1,6 +1,7 @@
 package de.peteral.kapa.view;
 
 import de.peteral.kapa.domain.*;
+import org.optaplanner.core.api.solver.Solver;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -18,6 +19,7 @@ public class Renderer {
     private final List<String> sprintLabels;
     private final List<Team> teams;
     private final List<SprintEntry> sprints;
+    private final Solver<Schedule> solver;
     private final Schedule schedule;
 
     private static final int SPRINT_HEIGHT = 100;
@@ -27,7 +29,7 @@ public class Renderer {
     private static final int LEGEND_WIDTH = 200;
     private static final int LEGEND_HEIGHT = 80;
 
-    public Renderer(Schedule schedule) {
+    public Renderer(Schedule schedule, Solver<Schedule> solver) {
         this.schedule = schedule;
 
         sprintLabels = schedule.getSprints().stream()
@@ -56,6 +58,7 @@ public class Renderer {
                                 .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
+        this.solver = solver;
     }
 
     public String render() throws URISyntaxException, IOException {
@@ -72,8 +75,17 @@ public class Renderer {
         result = addProjects(result);
         result = addSprints(result);
         result = addLegend(result);
+        result = addFooter(result);
 
         return result;
+    }
+
+    private String addFooter(String template) {
+        return template.replaceAll("\\$\\{footer\\}",
+                String.format("    <text x=\"50\" y=\"%d\" class=\"footer\">Score: %s</text>",
+                        getTotalHeight() - 20,
+                        solver.getBestScore()
+                        ));
     }
 
     private String addLegend(String template) {
@@ -133,7 +145,7 @@ public class Renderer {
                                             .collect(Collectors.summarizingLong(SubTask::getWork)).getSum();
 
                                     if (totalWork > 0) {
-                                        int width = (int)(100.0 * totalWork / sprint.velocity) - 2;
+                                        int width = (int)(100.0 * totalWork / sprint.velocity);
                                         int x = BORDER_SIZE + 1 + sprint.teamIndex * SPRINT_WIDTH + sprint.getCurrentOffset();
                                         int y = BORDER_SIZE + 1 + sprint.sprintIndex * SPRINT_HEIGHT;
 
@@ -186,7 +198,13 @@ public class Renderer {
     private String addSize(String template) {
         return template
             .replaceAll("\\$\\{width\\}", Integer.toString(teams.size() * SPRINT_WIDTH + 2 * BORDER_SIZE + LEGEND_WIDTH))
-            .replaceAll("\\$\\{height\\}", Integer.toString(sprintLabels.size() * SPRINT_HEIGHT + 2 * BORDER_SIZE));
+            .replaceAll("\\$\\{height\\}", Integer.toString(getTotalHeight()));
+    }
+
+    private int getTotalHeight() {
+        return Math.max(
+                sprintLabels.size() * SPRINT_HEIGHT + 2 * BORDER_SIZE,
+                LEGEND_HEIGHT * schedule.getProjects().size() + BORDER_SIZE);
     }
 
     private String addTeamLabels(String template) {

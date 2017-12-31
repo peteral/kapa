@@ -25,6 +25,12 @@ public class Sprint extends AbstractDomainObject {
 
     }
 
+    public Sprint(long id, long velocity, String name) {
+        super(id);
+        this.velocity = velocity;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return String.format("Sprint-%d", getId());

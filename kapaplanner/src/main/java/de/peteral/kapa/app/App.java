@@ -33,11 +33,15 @@ public class App {
             printUsage();
 
         SolverFactory<Schedule> factory = SolverFactory.createFromXmlResource("de/peteral/kapa/solver/solverConfig.xml");
+//        SolverFactory<Schedule> factory = SolverFactory.createFromXmlResource("de/peteral/kapa/solver/solverConfigSimulation.xml");
         Solver<Schedule> solver = factory.buildSolver();
 
         Schedule unsolvedSchedule = Loader.load(
                 getParameter(params, 0),
                 getParameter(params, 1));
+
+        // simulated data set with more realistic size
+//        Schedule unsolvedSchedule = Loader.simulate();
 
         SolverUtils.injectSprints(
                 unsolvedSchedule.getSprints().stream()
@@ -54,7 +58,7 @@ public class App {
         Visualization visualization = new Visualization(solvedSchedule);
         LOGGER.info("Solved schedule: " + visualization);
 
-        Renderer renderer = new Renderer(solvedSchedule);
+        Renderer renderer = new Renderer(solvedSchedule, solver);
         String svg = renderer.render();
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(getParameter(params, 2)))) {
             writer.write(svg);

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+    <!-- Define the model -->
+    <scanAnnotatedClasses/>
+
+    <!-- Define the score function -->
+    <scoreDirectorFactory>
+        <scoreDrl>de/peteral/kapa/solver/score.drl</scoreDrl>
+    </scoreDirectorFactory>
+
+    <constructionHeuristic>
+        <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+        <termination>
+            <minutesSpentLimit>5</minutesSpentLimit>
+            <bestScoreLimit>0hard/0soft</bestScoreLimit>
+        </termination>
+    </constructionHeuristic>
+
+    <localSearch>
+        <termination>
+            <minutesSpentLimit>5</minutesSpentLimit>
+            <bestScoreLimit>0hard/0soft</bestScoreLimit>
+        </termination>
+    </localSearch>
+
+    <termination>
+        <minutesSpentLimit>10</minutesSpentLimit>
+        <bestScoreLimit>0hard/0soft</bestScoreLimit>
+    </termination>
+
+</solver>
+

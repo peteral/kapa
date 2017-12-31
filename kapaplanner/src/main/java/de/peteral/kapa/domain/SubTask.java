@@ -1,9 +1,10 @@
 package de.peteral.kapa.domain;
 
+import de.peteral.kapa.solver.SubTaskDifficultyComparator;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
-@PlanningEntity
+@PlanningEntity(difficultyComparatorClass = SubTaskDifficultyComparator.class)
 public class SubTask extends AbstractDomainObject {
     private long work;
 

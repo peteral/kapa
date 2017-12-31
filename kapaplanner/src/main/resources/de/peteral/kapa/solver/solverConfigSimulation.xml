@@ -9,7 +9,7 @@
     </scoreDirectorFactory>
 
     <constructionHeuristic>
-        <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+        <constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
         <termination>
             <minutesSpentLimit>5</minutesSpentLimit>
             <bestScoreLimit>0hard/0soft</bestScoreLimit>
@@ -17,16 +17,12 @@
     </constructionHeuristic>
 
     <localSearch>
+        <localSearchType>LATE_ACCEPTANCE</localSearchType>
         <termination>
             <minutesSpentLimit>5</minutesSpentLimit>
             <bestScoreLimit>0hard/0soft</bestScoreLimit>
         </termination>
     </localSearch>
-
-    <termination>
-        <minutesSpentLimit>10</minutesSpentLimit>
-        <bestScoreLimit>0hard/0soft</bestScoreLimit>
-    </termination>
 
 </solver>
 

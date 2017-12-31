@@ -11,17 +11,17 @@ public class SubTaskDifficultyComparator implements Comparator<SubTask> {
         if (o1.getTask().getProject().getDue() == null && o2.getTask().getProject().getDue() == null)
             return 0;
 
-        if (o1.getTask().getProject().getDue() == null)
+        if (o2.getTask().getProject().getDue() == null)
             return Integer.MAX_VALUE;
 
-        if (o2.getTask().getProject().getDue() == null)
+        if (o1.getTask().getProject().getDue() == null)
             return Integer.MIN_VALUE;
 
-        int result = o1.getTask().getProject().getDue().compareTo(o2.getTask().getProject().getDue());
+        int result = o2.getTask().getProject().getDue().compareTo(o1.getTask().getProject().getDue());
 
         if (result != 0)
             return result;
 
-        return Integer.compare(o2.getTask().getProject().getCostsOfDelay(), o1.getTask().getProject().getCostsOfDelay());
+        return Integer.compare(o1.getTask().getProject().getCostsOfDelay(), o2.getTask().getProject().getCostsOfDelay());
     }
 }

@@ -32,16 +32,16 @@ public class App {
         if (params.length != DEFAULT_PARAMETERS.length)
             printUsage();
 
-        SolverFactory<Schedule> factory = SolverFactory.createFromXmlResource("de/peteral/kapa/solver/solverConfig.xml");
-//        SolverFactory<Schedule> factory = SolverFactory.createFromXmlResource("de/peteral/kapa/solver/solverConfigSimulation.xml");
+//        SolverFactory<Schedule> factory = SolverFactory.createFromXmlResource("de/peteral/kapa/solver/solverConfig.xml");
+        SolverFactory<Schedule> factory = SolverFactory.createFromXmlResource("de/peteral/kapa/solver/solverConfigSimulation.xml");
         Solver<Schedule> solver = factory.buildSolver();
 
-        Schedule unsolvedSchedule = Loader.load(
-                getParameter(params, 0),
-                getParameter(params, 1));
+//        Schedule unsolvedSchedule = Loader.load(
+//                getParameter(params, 0),
+//                getParameter(params, 1));
 
         // simulated data set with more realistic size
-//        Schedule unsolvedSchedule = Loader.simulate();
+        Schedule unsolvedSchedule = Loader.simulate();
 
         SolverUtils.injectSprints(
                 unsolvedSchedule.getSprints().stream()

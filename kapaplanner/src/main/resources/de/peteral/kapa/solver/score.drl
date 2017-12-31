@@ -74,7 +74,7 @@ rule "One task can only be done by one team"
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-// Soft constraints
+// Soft constraints - let's try to make this a hard constraint
 
 rule "Minimize costs of delay"
     when

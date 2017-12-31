@@ -1,3 +1,6 @@
 /.idea
 /kapaplanner/kapaplanner.iml
 /kapaplanner/target
+/docs/*.aux
+/docs/*.log
+/docs/*.gz

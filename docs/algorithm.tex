@@ -1,0 +1,37 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\title{Planning algorithm}
+\author{Ladislav Petera}
+\date{\today}
+\begin{document}
+\maketitle
+
+\section{Problem space}
+
+$$n = n_{team} \cdot n_{sprint} \cdot \sum_{i=0}^{n_{task}}{w_i} $$ where
+\begin{itemize}
+\item n - number of possible solutions
+\item $n_{team}$ - number of teams
+\item $n_{sprint}$ - number of sprints
+\item $n_{task}$ - number of planned tasks
+\item $w_i$ - work of given task
+\end{itemize}
+
+In our example we will get $n = 5 \cdot 11 \cdot 280 = 15.400$
+
+\paragraph{Let's consider a more realistic example:}
+
+\begin{itemize}
+\item 50.000 story points (~40 person years)
+\item 16 sprints (a year)
+\item 6 teams
+\end{itemize}
+
+This will result in problem space $n = 6 \cdot 16 \cdot 50000 = 4.8 \cdot 10^6$.
+This is a relatively small number considering the problem space size the planning algorithms normally deal with.
+
+\end{document}

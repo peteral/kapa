@@ -20,6 +20,11 @@ Sample output:
 
 <img src="docs/visualization.png">
 
+## Problem space
+
+See [docs/algorithm.pdf](https://github.com/peteral/kapa/blob/master/docs/algorithm.pdf) for discussion
+on problem space size.
+
 ## Planning constraints
 
 ### Hard constraints

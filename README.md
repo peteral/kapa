@@ -8,7 +8,9 @@ This software is based on [OptaPlanner](https://www.optaplanner.org/)
 
 ## Running the application
 
-The app expects 3 parameters: `app teams.xml projects.xml output.svg`
+The app can be started in two modes:
+* processing real inputs: `app teams.xml projects.xml output.svg`
+* using internal simulation: `app -s`
 
 You can find sample configuration files in the `config` folder.
 

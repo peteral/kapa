@@ -3,6 +3,7 @@ package de.peteral.kapa.solver;
 import de.peteral.kapa.domain.SubTask;
 import de.peteral.kapa.domain.Task;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -10,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
+@Ignore
 public class SubTaskDifficultyComparatorTest {
 
     @Mock
@@ -44,5 +46,4 @@ public class SubTaskDifficultyComparatorTest {
 
         assertEquals(Integer.MAX_VALUE, comparator.compare(subtask1, subtask2));
     }
-
 }

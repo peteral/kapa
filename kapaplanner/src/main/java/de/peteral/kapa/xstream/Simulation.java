@@ -43,20 +43,41 @@ public class Simulation {
 
 
         // seed some constraints
-        IntStream.of(10, 20, 30).forEach(i -> {
+        IntStream.of(10, 20, 30, 12, 22, 32).forEach(i -> {
             Project project = projects.getProjects().get(i);
             project.setDue("7.30");
             project.setCostsOfDelay(1);
         });
-        IntStream.of(11, 21, 31).forEach(i -> {
+        IntStream.of(11, 21, 31, 13, 23, 33).forEach(i -> {
             Project project = projects.getProjects().get(i);
             project.setDue("7.40");
             project.setCostsOfDelay(1);
         });
         // TODO dependencies between projects
-        // TODO more due projects
+        Task blocker = projects.getProjects().get(10).getTasks().stream()
+                .filter(task -> task.getSkill().equalsIgnoreCase("analysis"))
+                .collect(Collectors.toList())
+                .get(0)
+                ;
+        setBlocker(projects, IntStream.of(12, 22, 32), blocker, "PLATFORM");
+
+        blocker = projects.getProjects().get(11).getTasks().stream()
+                .filter(task -> task.getSkill().equalsIgnoreCase("analysis"))
+                .collect(Collectors.toList())
+                .get(0)
+                ;
+        setBlocker(projects, IntStream.of(13, 23, 33), blocker, "PLATFORM");
 
         return Loader.createSchedule(teams, projects);
+    }
+
+    private static void setBlocker(Projects projects, IntStream projectIndexes, Task blocker, String skill) {
+        projectIndexes.forEach(i -> {
+            Project project = projects.getProjects().get(i);
+            project.getTasks().stream()
+                    .filter(task -> task.getSkill().equalsIgnoreCase(skill))
+                    .forEach(task -> task.setPreviousTasks(Arrays.asList(blocker)));
+        });
     }
 
     private static List<Task> createTasks(Long id) {

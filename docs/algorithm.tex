@@ -44,10 +44,26 @@ The problem space is so huge, that I beliewe, that we will only get usable resul
 For this we will have to pre-sort the tasks correctly. This can be done by implementing a task difficulty comparator and use FIRST\_FIT\_DECREASING construction heuristics. The difficulty comparator sorts by following rules (descending priority):
 
 \begin{itemize}
-\item blockers should be planned before blocked tasks
+\item blockers should be planned before blocked tasks. This one is problematic, because the dependency tree is not transitive and therefore cannot be used within compare.
 \item projects which are due earlier should be planned before projects due later.
 \item projects which have higher costs of delay should be planned before projects with lower costs of delay
 \item we might need to take project size into consideration as well
 \end{itemize}
+
+\paragraph{Task size increase}
+
+We can reduce the problem space by increasing the sub task size. When changed from 1 to i.e. 10, then our realistic example's problem space will be reduced to approx. $n = (6 \cdot 16) ^{500} = 1.4 \cdot 10^{991}$.
+
+\paragraph{MoveSelector}
+
+Implementing a proper move selector might help avoiding wrong moves and help finding the optimal solution.
+
+\paragraph{BendableScore}
+
+Implementing a score with more levels might help to avoid a score trap.
+
+\paragraph{Dependency elimination}
+
+We could eliminate the task dependency and use project due for dependent projects. This might help because we would be able to provide a good difficulty comparator and leave most of the heavy lifting to construction heuristics.
 
 \end{document}

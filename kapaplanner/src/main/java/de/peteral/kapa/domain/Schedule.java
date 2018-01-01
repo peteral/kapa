@@ -5,6 +5,7 @@ import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
+import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
 import java.util.*;
@@ -21,8 +22,8 @@ public class Schedule {
     @PlanningEntityCollectionProperty
     private List<Task> tasks;
 
-    @PlanningScore
-    private HardSoftScore score;
+    @PlanningScore(bendableHardLevelsSize = 7, bendableSoftLevelsSize = 1)
+    private BendableScore score;
 
     private List<Team> teams;
 
@@ -46,11 +47,11 @@ public class Schedule {
 
     }
 
-    public HardSoftScore getScore() {
+    public BendableScore getScore() {
         return score;
     }
 
-    public void setScore(HardSoftScore score) {
+    public void setScore(BendableScore score) {
         this.score = score;
     }
 

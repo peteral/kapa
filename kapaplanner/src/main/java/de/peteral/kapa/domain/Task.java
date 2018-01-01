@@ -20,6 +20,8 @@ import java.util.stream.LongStream;
 @XStreamAlias("Task")
 @PlanningEntity
 public class Task extends AbstractDomainObject {
+    static final int SUBTASK_SIZE = 10;
+
     @XStreamAsAttribute
     private String skill;
     @XStreamAsAttribute
@@ -122,7 +124,13 @@ public class Task extends AbstractDomainObject {
 
     public void generateSubTasks() {
         this.subtasks = new ArrayList<>();
-        LongStream.range(0, getWork()).forEach(i -> this.subtasks.add(new SubTask(this, 1)));
+        // FIXME hardcoded optimization Sub-Task size = max(10, maxVelocity)
+        long remaining = getWork();
+        long taskSize = (maxVelocity > 0) ? Math.min(getMaxVelocity(), SUBTASK_SIZE) : SUBTASK_SIZE;
+        while (remaining > 0) {
+            this.subtasks.add(new SubTask(this, Math.min(remaining, taskSize)));
+            remaining -= taskSize;
+        }
     }
 
     public int getMaxVelocity() {

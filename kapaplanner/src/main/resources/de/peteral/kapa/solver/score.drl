@@ -1,7 +1,7 @@
 package de.peteral.kapa.solver
     dialect "java"
 
-import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
+import org.optaplanner.core.api.score.buildin.bendable.BendableScoreHolder;
 
 import de.peteral.kapa.domain.Task
 import de.peteral.kapa.domain.SubTask
@@ -12,22 +12,24 @@ import java.util.stream.Collectors
 
 import function de.peteral.kapa.solver.SolverUtils.getDelayCosts
 
-global HardSoftScoreHolder scoreHolder;
+global BendableScoreHolder scoreHolder;
 
 // Hard constraints
 
-rule "Task must be assigned"
+rule "Task dependency must not be violated"
     when
-        SubTask(sprint == null)
+        $task: Task()
+        Task(firstSprint != null, previousTasks contains $task, $task.lastSprint != null,
+            firstSprint.name.compareTo($task.lastSprint.name) <= 0)
     then
-        scoreHolder.addHardConstraintMatch(kcontext, -1);
+        scoreHolder.addHardConstraintMatch(kcontext, 0, -1);
 end
 
 rule "Team must have required skill"
     when
         SubTask(sprint != null, sprint.team.skills not contains task.skill)
     then
-        scoreHolder.addHardConstraintMatch(kcontext, -1);
+        scoreHolder.addHardConstraintMatch(kcontext, 1, -1);
 end
 
 rule "Cannot plan above sprint velocity"
@@ -39,31 +41,30 @@ rule "Cannot plan above sprint velocity"
             $total > $sprint.velocity
         )
     then
-        scoreHolder.addHardConstraintMatch(kcontext, -1);
+        scoreHolder.addHardConstraintMatch(kcontext, 2, -1);
 end
 
 rule "Max task velocity per sprint must not be exceeded"
     when
         Task(sprintViolatesMaxVelocity)
     then
-        scoreHolder.addHardConstraintMatch(kcontext, -1);
-end
-
-rule "Task dependency must not be violated"
-    when
-        $task: Task()
-        Task(firstSprint != null, previousTasks contains $task, $task.lastSprint != null,
-            firstSprint.name.compareTo($task.lastSprint.name) <= 0)
-    then
-        scoreHolder.addHardConstraintMatch(kcontext, -1);
+        scoreHolder.addHardConstraintMatch(kcontext, 3, -1);
 end
 
 rule "Task cannot start before first possible sprint (external dependency)"
     when
         Task(firstPossibleSprint != null, firstSprint != null, firstSprint.name.compareTo(firstPossibleSprint) < 0)
     then
-        scoreHolder.addHardConstraintMatch(kcontext, -1);
+        scoreHolder.addHardConstraintMatch(kcontext, 4, -1);
 end
+
+rule "Task must be assigned"
+    when
+        SubTask(sprint == null)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, 5, -1);
+end
+
 
 // one task can be done only in one team
 rule "One task can only be done by one team"
@@ -71,7 +72,7 @@ rule "One task can only be done by one team"
         SubTask(sprint != null, $task : task, $team: sprint.team)
         SubTask(sprint != null, task == $task, sprint.team != $team)
     then
-        scoreHolder.addHardConstraintMatch(kcontext, -1);
+        scoreHolder.addHardConstraintMatch(kcontext, 6, -1);
 end
 
 // Soft constraints - let's try to make this a hard constraint
@@ -81,7 +82,7 @@ rule "Minimize costs of delay"
         Project(costsOfDelay > 0 && due != null && lastSprint != null,
             $due : due, $lastSprint : lastSprint.name, $costs : costsOfDelay)
     then
-        scoreHolder.addSoftConstraintMatch(kcontext, - getDelayCosts($due, $lastSprint, $costs));
+        scoreHolder.addSoftConstraintMatch(kcontext, 0, - getDelayCosts($due, $lastSprint, $costs));
 end
 
 // proper sprint utilitation seems to work without any rules

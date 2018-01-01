@@ -9,6 +9,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class TaskTest {
 
@@ -49,5 +50,34 @@ public class TaskTest {
     @Test
     public void isBlockedBy_ListIsNull_ReturnsFalse() {
         assertFalse(task.isBlockedBy(other));
+    }
+
+    @Test
+    public void generateSubtasks_WorkIs25_Generates3TasksWithCorrectSize() {
+        task.setWork(25);
+
+        task.generateSubTasks();
+
+        assertEquals(
+                Arrays.asList(10L, 10L, 5L),
+                task.getSubtasks().stream()
+                    .map(subTask -> (Long)subTask.getWork())
+                    .collect(Collectors.toList())
+        );
+    }
+
+    @Test
+    public void generateSubtasks_WithMaxVelocity_GeneratesCorrectTasks() {
+        task.setWork(25);
+        task.setMaxVelocity(5);
+
+        task.generateSubTasks();
+
+        assertEquals(
+                Arrays.asList(5L, 5L, 5L, 5L, 5L),
+                task.getSubtasks().stream()
+                        .map(subTask -> (Long)subTask.getWork())
+                        .collect(Collectors.toList())
+        );
     }
 }

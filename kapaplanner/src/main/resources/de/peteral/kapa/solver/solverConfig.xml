@@ -11,15 +11,15 @@
     <constructionHeuristic>
         <constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
         <termination>
-            <bestScoreLimit>0hard/0soft</bestScoreLimit>
+            <bestScoreLimit>[0/0/0/0/0/0/0]hard/[0]soft</bestScoreLimit>
         </termination>
     </constructionHeuristic>
 
     <localSearch>
         <localSearchType>LATE_ACCEPTANCE</localSearchType>
         <termination>
-            <minutesSpentLimit>5</minutesSpentLimit>
-            <bestScoreLimit>0hard/0soft</bestScoreLimit>
+            <unimprovedMinutesSpentLimit>5</unimprovedMinutesSpentLimit>
+            <bestScoreLimit>[0/0/0/0/0/0/0]hard/[0]soft</bestScoreLimit>
         </termination>
     </localSearch>
 

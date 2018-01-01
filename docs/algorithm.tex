@@ -36,4 +36,18 @@ For comparison - the estimated number of atoms in the known universe is around $
 This will result in problem space $n = (6 \cdot 16) ^{5000} = 2.2 \cdot 10^{9911}$.
 Looks like we are going to have to optimize a bit in order to be able to get some usable solution in reasonable time (smaller than few billion years).
 
+\section{Optimization}
+
+The problem space is so huge, that I beliewe, that we will only get usable results in meaningful time when the construction heuristics already delivers the "optimal" solution.
+
+
+For this we will have to pre-sort the tasks correctly. This can be done by implementing a task difficulty comparator and use FIRST\_FIT\_DECREASING construction heuristics. The difficulty comparator sorts by following rules (descending priority):
+
+\begin{itemize}
+\item blockers should be planned before blocked tasks
+\item projects which are due earlier should be planned before projects due later.
+\item projects which have higher costs of delay should be planned before projects with lower costs of delay
+\item we might need to take project size into consideration as well
+\end{itemize}
+
 \end{document}

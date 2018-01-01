@@ -38,7 +38,7 @@ public class Simulation {
 
         final Projects projects = new Projects();
         projects.setProjects(LongStream.rangeClosed(1, 50).boxed()
-                .map(id -> new Project(id, 1, null, getColor(id), createTasks(id)))
+                .map(id -> new Project(id, 1, null, null, createTasks(id)))
                 .collect(Collectors.toList()));
 
 
@@ -95,21 +95,6 @@ public class Simulation {
 
         // foked up the order on purpose to check difficulty comparator
         return Arrays.asList(customizing, project, analysis, product1, product2);
-    }
-
-    private final static Color MIX = Color.LIGHT_GRAY;
-
-    private static String getColor(Long id) {
-        Random random = new Random(id);
-        int red = random.nextInt(256);
-        int green = random.nextInt(256);
-        int blue = random.nextInt(256);
-
-        red = (red + MIX.getRed()) / 2;
-        green = (green + MIX.getGreen()) / 2;
-        blue = (blue + MIX.getBlue()) / 2;
-
-        return String.format("#%x%x%x", red, green, blue);
     }
 
     private static List<Sprint> createSprints(int velocity) {

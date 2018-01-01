@@ -32,6 +32,8 @@ public class Task extends AbstractDomainObject {
     @XStreamImplicit(itemFieldName = "PreviousTask")
     private List<Task> previousTasks;
 
+    private List<Task> blockedTasks;
+
     @XStreamAsAttribute
     private String firstPossibleSprint;
 
@@ -182,6 +184,30 @@ public class Task extends AbstractDomainObject {
                 return true;
 
             if (task.isBlockedBy(other))
+                return true;
+        }
+
+        return false;
+    }
+
+    public List<Task> getBlockedTasks() {
+        return blockedTasks;
+    }
+
+    public void setBlockedTasks(List<Task> blockedTasks) {
+        this.blockedTasks = blockedTasks;
+    }
+
+    public boolean blocks(Task other) {
+        if (blockedTasks == null) {
+            return false;
+        }
+
+        for (Task task: blockedTasks) {
+            if (task == other)
+                return true;
+
+            if (task.blocks(other))
                 return true;
         }
 

@@ -53,6 +53,34 @@ public class TaskTest {
     }
 
     @Test
+    public void blocks_ListIsNull_ReturnsFalse() {
+        assertFalse(task.blocks(other));
+    }
+
+    @Test
+    public void blocks_ListIsEmpty_ReturnsFalse() {
+        task.setBlockedTasks(Collections.emptyList());
+
+        assertFalse(task.blocks(other));
+    }
+
+    @Test
+    public void blocks_DirectlyBlocked_ReturnsTrue() {
+        task.setBlockedTasks(Arrays.asList(other));
+
+        assertTrue(task.blocks(other));
+    }
+
+    @Test
+    public void blocks_IndirectlyBlocked_ReturnsTrue() {
+        task.setBlockedTasks(Arrays.asList(other));
+        Task other2 = mock(Task.class);
+        when(other.blocks(other2)).thenReturn(true);
+
+        assertTrue(task.blocks(other2));
+    }
+
+    @Test
     public void generateSubtasks_WorkIs25_Generates3TasksWithCorrectSize() {
         task.setWork(25);
 

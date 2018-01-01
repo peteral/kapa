@@ -11,7 +11,6 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-@Ignore
 public class SubTaskDifficultyComparatorTest {
 
     @Mock

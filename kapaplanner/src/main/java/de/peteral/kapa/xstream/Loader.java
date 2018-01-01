@@ -24,8 +24,6 @@ public class Loader {
         Teams teams = (Teams) xStream.fromXML(new File(teamsUrl));
         Projects projects = (Projects) xStream.fromXML(new File(projectsUrl));
         return createSchedule(teams, projects);
-
-
     }
 
     public static Schedule createSchedule(Teams teams, Projects projects) {
@@ -45,6 +43,28 @@ public class Loader {
                         })
         );
 
+        // initialize missing color attributes to procedurally generated color
+        projects.getProjects().stream()
+                .filter(project -> project.getColor() == null)
+                .forEach(project -> project.setColor(getColor(project.getId())));
+
         return new Schedule(teams.getTeams(), projects.getProjects());
     }
+
+    private final static Color MIX = Color.LIGHT_GRAY;
+
+    private static String getColor(Long id) {
+        Random random = new Random(id);
+        int red = random.nextInt(256);
+        int green = random.nextInt(256);
+        int blue = random.nextInt(256);
+
+        red = (red + MIX.getRed()) / 2;
+        green = (green + MIX.getGreen()) / 2;
+        blue = (blue + MIX.getBlue()) / 2;
+
+        return String.format("#%x%x%x", red, green, blue);
+    }
+
+
 }

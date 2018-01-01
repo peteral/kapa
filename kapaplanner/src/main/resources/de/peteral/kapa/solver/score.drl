@@ -87,3 +87,5 @@ end
 // proper sprint utilitation seems to work without any rules
 
 // do we need fair workload balance constraint?
+
+// TODO tasks should not be split into too many sprints

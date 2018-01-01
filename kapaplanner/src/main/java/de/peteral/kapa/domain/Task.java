@@ -164,4 +164,19 @@ public class Task extends AbstractDomainObject {
     public void setFirstPossibleSprint(String firstPossibleSprint) {
         this.firstPossibleSprint = firstPossibleSprint;
     }
+
+    public boolean isBlockedBy(Task other) {
+        if (getPreviousTasks() == null)
+            return false;
+
+        for (Task task: getPreviousTasks()) {
+            if (task == other)
+                return true;
+
+            if (task.isBlockedBy(other))
+                return true;
+        }
+
+        return false;
+    }
 }

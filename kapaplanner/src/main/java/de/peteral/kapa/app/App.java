@@ -5,6 +5,7 @@ import de.peteral.kapa.solver.SolverUtils;
 import de.peteral.kapa.view.Renderer;
 import de.peteral.kapa.view.Visualization;
 import de.peteral.kapa.xstream.Loader;
+import de.peteral.kapa.xstream.Simulation;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.slf4j.Logger;
@@ -32,24 +33,10 @@ public class App {
         if (params.length != DEFAULT_PARAMETERS.length)
             printUsage();
 
-//        SolverFactory<Schedule> factory = SolverFactory.createFromXmlResource("de/peteral/kapa/solver/solverConfig.xml");
-        SolverFactory<Schedule> factory = SolverFactory.createFromXmlResource("de/peteral/kapa/solver/solverConfigSimulation.xml");
+        SolverFactory<Schedule> factory = SolverFactory.createFromXmlResource("de/peteral/kapa/solver/solverConfig.xml");
         Solver<Schedule> solver = factory.buildSolver();
 
-//        Schedule unsolvedSchedule = Loader.load(
-//                getParameter(params, 0),
-//                getParameter(params, 1));
-
-        // simulated data set with more realistic size
-        Schedule unsolvedSchedule = Loader.simulate();
-
-        SolverUtils.injectSprints(
-                unsolvedSchedule.getSprints().stream()
-                        .map(sprint -> sprint.getName())
-                        .distinct()
-                        .sorted()
-                        .collect(Collectors.toList())
-        );
+        Schedule unsolvedSchedule = getSchedule(params);
 
         LOGGER.info("Unsolved schedule: " + unsolvedSchedule);
 
@@ -64,6 +51,28 @@ public class App {
             writer.write(svg);
         }
     }
+
+    private static Schedule getSchedule(String[] params) {
+        Schedule unsolvedSchedule;
+        if (params.length >= 1 && "-s".equalsIgnoreCase(params[0])) {
+            unsolvedSchedule = Simulation.simulate();
+        }
+        else {
+            unsolvedSchedule = Loader.load(
+                    getParameter(params, 0),
+                    getParameter(params, 1));
+        }
+
+        SolverUtils.injectSprints(
+                unsolvedSchedule.getSprints().stream()
+                        .map(sprint -> sprint.getName())
+                        .distinct()
+                        .sorted()
+                        .collect(Collectors.toList())
+        );
+        return unsolvedSchedule;
+    }
+
 
     private static void printUsage() {
         System.out.println("Usage: <teams.xml> <projects.xml> <output.svg>");

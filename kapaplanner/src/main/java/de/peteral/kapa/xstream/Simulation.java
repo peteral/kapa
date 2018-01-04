@@ -37,7 +37,7 @@ public class Simulation {
         ));
 
         final Projects projects = new Projects();
-        projects.setProjects(LongStream.rangeClosed(1, 50).boxed()
+        projects.setProjects(LongStream.rangeClosed(1, 40).boxed()
                 .map(id -> new Project(id, 1, null, null, createTasks(id)))
                 .collect(Collectors.toList()));
 
@@ -53,20 +53,21 @@ public class Simulation {
             project.setDue("7.40");
             project.setCostsOfDelay(1);
         });
-        // TODO dependencies between projects
-        Task blocker = projects.getProjects().get(10).getTasks().stream()
-                .filter(task -> task.getSkill().equalsIgnoreCase("analysis"))
-                .collect(Collectors.toList())
-                .get(0)
-                ;
-        setBlocker(projects, IntStream.of(12, 22, 32), blocker, "PLATFORM");
 
-        blocker = projects.getProjects().get(11).getTasks().stream()
-                .filter(task -> task.getSkill().equalsIgnoreCase("analysis"))
-                .collect(Collectors.toList())
-                .get(0)
-                ;
-        setBlocker(projects, IntStream.of(13, 23, 33), blocker, "PLATFORM");
+        // FIXME dependencies between projects mess up the plan
+//        Task blocker = projects.getProjects().get(10).getTasks().stream()
+//                .filter(task -> task.getSkill().equalsIgnoreCase("analysis"))
+//                .collect(Collectors.toList())
+//                .get(0)
+//                ;
+//        setBlocker(projects, IntStream.of(12, 22, 32), blocker, "PLATFORM");
+//
+//        blocker = projects.getProjects().get(11).getTasks().stream()
+//                .filter(task -> task.getSkill().equalsIgnoreCase("analysis"))
+//                .collect(Collectors.toList())
+//                .get(0)
+//                ;
+//        setBlocker(projects, IntStream.of(13, 23, 33), blocker, "PLATFORM");
 
         return Loader.createSchedule(teams, projects);
     }

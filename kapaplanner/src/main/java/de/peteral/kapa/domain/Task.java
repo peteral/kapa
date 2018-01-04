@@ -20,7 +20,7 @@ import java.util.stream.LongStream;
 @XStreamAlias("Task")
 @PlanningEntity
 public class Task extends AbstractDomainObject {
-    static final int SUBTASK_SIZE = 10;
+    static final int SUBTASK_SIZE = 1;
 
     @XStreamAsAttribute
     private String skill;

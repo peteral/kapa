@@ -1,5 +1,7 @@
 package de.peteral.kapa.solver;
 
+import de.peteral.kapa.domain.Sprint;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -14,5 +16,10 @@ public class SolverUtils {
 
     public static void injectSprints(List<String> sprints) {
         SolverUtils.sprints = sprints;
+    }
+
+    public static int getUtilizationMalus(Sprint sprint, long work) {
+        long unutilized = sprint.getVelocity() - work;
+        return - (int) ((sprints.size() - sprints.indexOf(sprint.getName())) * unutilized);
     }
 }

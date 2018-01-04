@@ -22,7 +22,7 @@ public class Schedule {
     @PlanningEntityCollectionProperty
     private List<Task> tasks;
 
-    @PlanningScore(bendableHardLevelsSize = 7, bendableSoftLevelsSize = 1)
+    @PlanningScore(bendableHardLevelsSize = 7, bendableSoftLevelsSize = 2)
     private BendableScore score;
 
     private List<Team> teams;

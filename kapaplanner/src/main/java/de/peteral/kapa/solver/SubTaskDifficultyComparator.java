@@ -11,6 +11,7 @@ public class SubTaskDifficultyComparator implements Comparator<SubTask> {
         if (o1.getTask() == o2.getTask())
             return 0;
 
+        // blockers before blocked
         if (o1.getTask().isBlockedBy(o2.getTask()))
             return Integer.MIN_VALUE;
 
@@ -23,8 +24,16 @@ public class SubTaskDifficultyComparator implements Comparator<SubTask> {
         if (o2.getTask().blocks(o1.getTask()))
             return Integer.MIN_VALUE;
 
-        // reverse dependency map might help here
-
+//        // blockers before non-blockers
+//        if (o1.getTask().getBlockedTasks() != null && !o1.getTask().getBlockedTasks().isEmpty() &&
+//                (o2.getTask().getBlockedTasks() == null || o2.getTask().getBlockedTasks().isEmpty()))
+//            return Integer.MAX_VALUE;
+//
+//        if (o2.getTask().getBlockedTasks() != null && !o2.getTask().getBlockedTasks().isEmpty() &&
+//                (o1.getTask().getBlockedTasks() == null || o1.getTask().getBlockedTasks().isEmpty()))
+//            return Integer.MIN_VALUE;
+//
+        // due
         if (o1.getTask().getProject().getDue() == null && o2.getTask().getProject().getDue() == null)
             return 0;
 

@@ -10,10 +10,12 @@ import de.peteral.kapa.domain.Team
 import de.peteral.kapa.domain.Project
 import java.util.stream.Collectors
 
-import function de.peteral.kapa.solver.SolverUtils.getDelayCosts
-import function de.peteral.kapa.solver.SolverUtils.getUtilizationMalus
+import function de.peteral.kapa.solver.SolverUtils.getSprintDifference
+import function de.peteral.kapa.solver.SolverUtils.getSprintIndex
+import function de.peteral.kapa.solver.SolverUtils.getSprintCount
 
 global BendableScoreHolder scoreHolder;
+
 
 // Hard constraints
 
@@ -33,12 +35,12 @@ rule "Cannot plan above sprint velocity"
             $total > $sprint.velocity
         )
     then
-        scoreHolder.addHardConstraintMatch(kcontext, 1, -1);
+        scoreHolder.addHardConstraintMatch(kcontext, 1, (int) ($sprint.getVelocity() - $total));
 end
 
 rule "Max task velocity per sprint must not be exceeded"
     when
-        Task(sprintViolatesMaxVelocity)
+        SubTask(task.sprintViolatesMaxVelocity)
     then
         scoreHolder.addHardConstraintMatch(kcontext, 2, -1);
 end
@@ -54,18 +56,23 @@ end
 
 rule "Task cannot start before first possible sprint (external dependency)"
     when
-        Task(firstPossibleSprint != null, firstSprint != null, firstSprint.name.compareTo(firstPossibleSprint) < 0)
+        SubTask(task.firstPossibleSprint != null, task.firstSprint != null,
+            task.firstSprint.name.compareTo(task.firstPossibleSprint) < 0,
+            $current : task.firstSprint.name, $required : task.firstPossibleSprint
+            )
     then
-        scoreHolder.addHardConstraintMatch(kcontext, 4, -1);
+        scoreHolder.addHardConstraintMatch(kcontext, 4, getSprintDifference($current, $required));
 end
 
 rule "Task dependency must not be violated"
     when
-        $task: Task()
-        Task(firstSprint != null, previousTasks contains $task, $task.lastSprint != null,
-            firstSprint.name.compareTo($task.lastSprint.name) <= 0)
+        $task: SubTask(sprint != null)
+        SubTask(task != $task.task, sprint != null, task.isBlockedBy($task.task), $task.task.lastSprint != null,
+            sprint.name.compareTo($task.sprint.name) <= 0,
+            $current : sprint.name
+            )
     then
-        scoreHolder.addHardConstraintMatch(kcontext, 5, -1);
+        scoreHolder.addHardConstraintMatch(kcontext, 5, getSprintDifference($current, $task.getSprint().getName()) - 1);
 end
 
 rule "Due Task must be assigned"
@@ -76,15 +83,18 @@ rule "Due Task must be assigned"
 end
 
 
-// Soft constraints - let's try to make this a hard constraint
+// Soft constraints
 
 rule "Minimize costs of delay"
     when
         Project(costsOfDelay > 0 && due != null && lastSprint != null,
             $due : due, $lastSprint : lastSprint.name, $costs : costsOfDelay)
     then
-        scoreHolder.addSoftConstraintMatch(kcontext, 0, - getDelayCosts($due, $lastSprint, $costs));
+        int score = getSprintDifference($lastSprint, $due) * $costs;
+        score = (score > 0) ? score : 0;
+        scoreHolder.addSoftConstraintMatch(kcontext, 0, - score);
 end
+
 
 rule "High sprint utilization is beneficiary"
     when
@@ -94,9 +104,6 @@ rule "High sprint utilization is beneficiary"
             $total : sum($work)
         )
     then
-        scoreHolder.addSoftConstraintMatch(kcontext, 1, getUtilizationMalus($sprint, $total));
+        scoreHolder.addSoftConstraintMatch(kcontext, 1,
+            - (int) ((getSprintCount() - getSprintIndex($sprint.getName())) * ($sprint.getVelocity() - $total)));
 end
-
-// do we need fair workload balance constraint?
-
-// TODO tasks should not be split into too many sprints

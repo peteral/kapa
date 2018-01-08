@@ -5,6 +5,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import de.peteral.kapa.solver.FirstSprintListener;
 import de.peteral.kapa.solver.LastSprintListener;
+import de.peteral.kapa.solver.SolverUtils;
 import de.peteral.kapa.solver.TaskMaxVelocityListener;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
@@ -14,13 +15,14 @@ import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 @XStreamAlias("Task")
 @PlanningEntity
 public class Task extends AbstractDomainObject {
-    static final int SUBTASK_SIZE = 1;
+    static final int SUBTASK_SIZE = 5;
 
     @XStreamAsAttribute
     private String skill;
@@ -212,5 +214,18 @@ public class Task extends AbstractDomainObject {
         }
 
         return false;
+    }
+
+
+    public int dependenciesViolated() {
+        final AtomicInteger result = new AtomicInteger();
+
+        if (previousTasks != null) {
+            previousTasks.stream()
+                    .filter(task -> SolverUtils.getSprintDifference(getLastSprint().getName(), task.getLastSprint().getName()) <= 0)
+                    .forEach(task -> result.incrementAndGet());
+        }
+
+        return result.get();
     }
 }

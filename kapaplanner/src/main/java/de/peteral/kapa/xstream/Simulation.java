@@ -55,12 +55,12 @@ public class Simulation {
         });
 
         // FIXME dependencies between projects mess up the plan
-//        Task blocker = projects.getProjects().get(10).getTasks().stream()
-//                .filter(task -> task.getSkill().equalsIgnoreCase("analysis"))
-//                .collect(Collectors.toList())
-//                .get(0)
-//                ;
-//        setBlocker(projects, IntStream.of(12, 22, 32), blocker, "PLATFORM");
+        Task blocker = projects.getProjects().get(10).getTasks().stream()
+                .filter(task -> task.getSkill().equalsIgnoreCase("COMMISSIONING"))
+                .collect(Collectors.toList())
+                .get(0)
+                ;
+        setBlocker(projects, IntStream.of(11, 21), blocker, "ANALYSIS");
 //
 //        blocker = projects.getProjects().get(11).getTasks().stream()
 //                .filter(task -> task.getSkill().equalsIgnoreCase("analysis"))

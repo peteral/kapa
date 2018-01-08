@@ -36,34 +36,65 @@ For comparison - the estimated number of atoms in the known universe is around $
 This will result in problem space $n = (6 \cdot 16) ^{5000} = 2.2 \cdot 10^{9911}$.
 Looks like we are going to have to optimize a bit in order to be able to get some usable solution in reasonable time (smaller than few billion years).
 
-\section{Optimization}
+\section{Planning constraints}
 
-The problem space is so huge, that I beliewe, that we will only get usable results in meaningful time when the construction heuristics already delivers the "optimal" solution.
+\paragraph{Hard constraints}
 
-
-For this we will have to pre-sort the tasks correctly. This can be done by implementing a task difficulty comparator and use FIRST\_FIT\_DECREASING construction heuristics. The difficulty comparator sorts by following rules (descending priority):
+The hard constraints limit what is physically possible. The construction heuristics will initialize our solution within these constraints.
 
 \begin{itemize}
-\item blockers should be planned before blocked tasks. This one is problematic, because the dependency tree is not transitive and therefore cannot be used within compare.
-\item projects which are due earlier should be planned before projects due later.
-\item projects which have higher costs of delay should be planned before projects with lower costs of delay
-\item we might need to take project size into consideration as well
+\item team must have required skill
+\item task dependency must not be violated
+\item sprint velocity must not be exceeded
+\item max task velocity per spring must not be exceeded
+\item task cannot start before first possible sprint
+\item one task can only be done by one team
 \end{itemize}
 
-\paragraph{Task size increase}
+\paragraph{Soft constraints}
 
-We can reduce the problem space by increasing the sub task size. When changed from 1 to i.e. 10, then our realistic example's problem space will be reduced to approx. $n = (6 \cdot 16) ^{500} = 1.4 \cdot 10^{991}$.
+The soft constraints create pressure towards the desirable output.
 
-\paragraph{MoveSelector}
+\begin{itemize}
+\item minimize costs of delay
+\item sprints should have high utilization
+\end{itemize}
 
-Implementing a proper move selector might help avoiding wrong moves and help finding the optimal solution.
+\section{Construction heuristic}
 
-\paragraph{BendableScore}
+The construction heuristics phase quickly initializes our solution. We will pre sort the planning entities and then use the FIRST\_FIT\_DECREASING algorithm. This algorithm cycles through all the planning entities starting with the most difficult ones, initializing one entity at a time. It takes the best available value and continues with the next entity.
 
-Implementing a score with more levels might help to avoid a score trap.
+A meaningful sort of the entities matching the constraints highly improves the chances of this phase to produce a meaningful result:
 
-\paragraph{Dependency elimination}
+\begin{itemize}
+\item blocking tasks before blocked tasks
+\item tasks of earlier projects before tasks of later projects
+\item projects with higher delay costs before projects with lower delay costs
+\end{itemize}
 
-We could eliminate the task dependency and use project due for dependent projects. This might help because we would be able to provide a good difficulty comparator and leave most of the heavy lifting to construction heuristics.
+Splitting up tasks is smaller subtasks will make it easier to find a relatively good solution based solely on construction heuristic. However it will lead to problems during the meta heuristic.
+
+\section{Metaheuristic}
+
+Every metaheuristic will be facing the problem, that a move of an sub-task seldom leads to a score improvement because it is the last sub-task in a task which really matters. This will result in discarding moves which lead towards global minimum. Combination of this fact and the huge problem space leads to an almost impossible optimization task for the metaheuristic.
+
+\subsection{Move selector}
+Finding a good method for selecting the next move is crucial.
+
+\paragraph{Brain storming:}
+\begin{itemize}
+\item priorize sub tasks of already selected task for move selection
+\item priorize blockers of moved tasks for move selection
+\end{itemize}
+
+\subsection{Score function improvement}
+
+Alternatively we need to make the sub tasks have an effect on the score.
+
+\paragraph{Brain storming:}
+\begin{itemize}
+\item currently we calculate score sometimes based on the tasks, sometimes based on subtasks. Changing all to sub tasks might have a positive effect.
+\end{itemize}
+
 
 \end{document}

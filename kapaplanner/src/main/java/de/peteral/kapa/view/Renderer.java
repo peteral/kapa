@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -93,6 +91,7 @@ public class Renderer {
         return template
                 .replaceAll("\\$\\{legend\\}",
                         schedule.getProjects().stream()
+                                .sorted(Comparator.comparing(project -> project.getLastSprint().getName()))
                         .map(project -> String.format("    <g transform=\"translate(%d, %d)\">\n" +
                                 "        <rect width=\"%d\" height=\"%d\" rx=\"5\" ry=\"5\" class=\"tooltip\"/>\n" +
                                 "        <text>\n" +
@@ -156,6 +155,14 @@ public class Renderer {
                                         if (project.getDue() != null && project.getDue().compareTo(project.getLastSprint().getName()) < 0)
                                             result.append(String.format("        <rect class=\"late\" height=\"%d\" width=\"%d\" x=\"%d\" y=\"%d\"/>\n",
                                                     LATE_MARKER_HEIGHT, width, x, y + SPRINT_HEIGHT - LATE_MARKER_HEIGHT));
+
+                                        long violations = sprint.tasks.stream().map(subTask -> subTask.getTask())
+                                                .filter(task -> task.getProject() == project)
+                                                .collect(Collectors.summarizingLong(Task::dependenciesViolated)).getSum();
+
+                                        if (violations > 0)
+                                            result.append(String.format("        <rect class=\"late\" height=\"%d\" width=\"%d\" x=\"%d\" y=\"%d\"/>\n",
+                                                    LATE_MARKER_HEIGHT, width, x, y + SPRINT_HEIGHT - 2*LATE_MARKER_HEIGHT));
 
                                     }
                                 });

@@ -18,7 +18,8 @@
     <!--<localSearch>-->
         <!--<localSearchType>LATE_ACCEPTANCE</localSearchType>-->
         <!--<termination>-->
-            <!--<unimprovedMinutesSpentLimit>3</unimprovedMinutesSpentLimit>-->
+            <!--&lt;!&ndash;<minutesSpentLimit>30</minutesSpentLimit>&ndash;&gt;-->
+            <!--<unimprovedMinutesSpentLimit>5</unimprovedMinutesSpentLimit>-->
             <!--<bestScoreLimit>[0/0/0/0/0/0/0]hard/[0/0]soft</bestScoreLimit>-->
         <!--</termination>-->
     <!--</localSearch>-->

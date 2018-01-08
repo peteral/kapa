@@ -1,7 +1,10 @@
 package de.peteral.kapa.app;
 
 import de.peteral.kapa.domain.Schedule;
+import de.peteral.kapa.domain.SubTask;
+import de.peteral.kapa.domain.Task;
 import de.peteral.kapa.solver.SolverUtils;
+import de.peteral.kapa.solver.SubTaskDifficultyComparator;
 import de.peteral.kapa.view.Renderer;
 import de.peteral.kapa.view.Visualization;
 import de.peteral.kapa.xstream.Loader;
@@ -19,6 +22,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class App {
@@ -38,6 +43,7 @@ public class App {
 
         Schedule unsolvedSchedule = getSchedule(params);
 
+        Collections.sort(unsolvedSchedule.getSubTasks(), new SubTaskDifficultyComparator());
         LOGGER.info("Unsolved schedule: " + unsolvedSchedule);
 
         Schedule solvedSchedule = solver.solve(unsolvedSchedule);

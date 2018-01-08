@@ -4,3 +4,7 @@
 /docs/*.aux
 /docs/*.log
 /docs/*.gz
+/.project
+/kapaplanner/.project
+/kapaplanner/.classpath
+/kapaplanner/.settings

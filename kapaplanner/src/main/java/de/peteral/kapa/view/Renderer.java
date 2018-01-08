@@ -80,9 +80,28 @@ public class Renderer {
 
     private String addFooter(String template) {
         return template.replaceAll("\\$\\{footer\\}",
-                String.format("    <text x=\"50\" y=\"%d\" class=\"footer\">Score: %s</text>",
+                String.format("    <text x=\"50\" y=\"%d\" class=\"footer\"\n" +
+                                "          onmouseover=\"document.getElementById('footer-tooltip').setAttribute('visibility', 'visible')\"\n" +
+                                "          onmouseout=\"document.getElementById('footer-tooltip').setAttribute('visibility', 'hidden')\">Score: %s</text>\n" +
+                                "\n" +
+                                "    <g id=\"footer-tooltip\" visibility=\"hidden\" transform=\"translate(50, %d)\">\n" +
+                                "        <rect class=\"tooltip\" width=\"300\" height=\"220\" rx=\"5\" ry=\"5\"/>\n" +
+                                "        <text class=\"footer\">\n" +
+                                "            <tspan x=\"10\" y=\"20\">[A/B/C/D/E/F/G]hard/[X/Y]soft</tspan>\n" +
+                                "            <tspan x=\"20\" y=\"40\">A - Team must have required skill</tspan>\n" +
+                                "            <tspan x=\"20\" y=\"60\">B - Sprint velocity</tspan>\n" +
+                                "            <tspan x=\"20\" y=\"80\">C - Max task velocity per sprint</tspan>\n" +
+                                "            <tspan x=\"20\" y=\"100\">D - One task one team</tspan>\n" +
+                                "            <tspan x=\"20\" y=\"120\">E - External dependency</tspan>\n" +
+                                "            <tspan x=\"20\" y=\"140\">F - Task dependency</tspan>\n" +
+                                "            <tspan x=\"20\" y=\"160\">G - Due Task must be assigned</tspan>\n" +
+                                "            <tspan x=\"20\" y=\"190\">X - Minimize costs of delay</tspan>\n" +
+                                "            <tspan x=\"20\" y=\"210\">Y - High sprint utilization</tspan>\n" +
+                                "        </text>\n" +
+                                "    </g>",
                         getTotalHeight() - 20,
-                        solver.getBestScore()
+                        solver.getBestScore(),
+                        getTotalHeight() - 260
                         ));
     }
 
